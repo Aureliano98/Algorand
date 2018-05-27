@@ -1,2 +1,2 @@
 # Algorand
-Algorand for OOP team project
+Algorand for OOP team project.
