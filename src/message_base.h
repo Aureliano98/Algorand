@@ -15,7 +15,7 @@ public:
     virtual uint256_t hash() const = 0;
 };
 
-inline uint256_t hash(const MessageBase &msg) {
+inline uint256_t hash_value(const MessageBase &msg) {
     return msg.hash();
 }
 ALGORAND_END
