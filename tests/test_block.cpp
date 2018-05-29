@@ -19,26 +19,23 @@ namespace {
     };
 }
 
-int main() {
-    using DefaultBlock = Block<allocator<void>>;
-    constexpr size_t test_size = 16;
-
+int main() {  
     cout << "Testing algorand::detail::get_skip_height:" << endl;
-    for (size_t i = 0; i != test_size; ++i)
+    for (size_t i = 0; i != 16; ++i)
         cout << "algorand::detail::get_skip_height(" << i << ") == " <<
         ALGORAND detail::get_skip_height(i) << endl;
 
     cout << endl << "Building chain:" << endl;
-    vector<shared_ptr<DefaultBlock>> blocks;
-    blocks.push_back(make_shared<DefaultBlock>(nullptr, nullptr, 0));
+    vector<Block<>*> blocks;
+    blocks.push_back(new Block<>(nullptr));
     blocks.back()->messages.push_back(make_shared<MyMessage>(0));
     //cout << "prev=" << blocks.back()->prev << ", skip=" << blocks.back()->skip << endl;
 
+    constexpr size_t test_size = 16;
     for (size_t i = 1; i != test_size; ++i) {
-        blocks.push_back(make_shared<DefaultBlock>(addressof(*blocks.back()), 
-            nullptr, blocks.back()->height + 1));
+        blocks.push_back(new Block<>(blocks.back()));
         blocks.back()->messages.push_back(make_shared<MyMessage>(i));
-        blocks.rbegin()[1]->next = addressof(*blocks.back());
+        blocks.rbegin()[1]->next = blocks.back();
         //cout << "prev=" << blocks.back()->prev << ", skip=" << blocks.back()->skip << endl;
     }
     for (auto &&b : blocks) {
@@ -56,8 +53,11 @@ int main() {
         auto x = blocks[rand_int(eng)];
         auto y = blocks[rand_int(eng)];
         cout << "last_common_ancestor(" << x->height << ", " << y->height << ") == " << 
-            last_common_ancestor(addressof(*x), addressof(*y))->height << endl;
+            last_common_ancestor(x, y)->height << endl;
     }
+
+    for (auto &&b : blocks)
+        delete b;
     
     system("pause");
     return 0;
