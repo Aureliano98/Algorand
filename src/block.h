@@ -33,7 +33,7 @@ namespace detail {
 // Resembles bitcoin/src/chain.
 // Alloc is used as allocator of vector $(messages), which may boost
 // performance. For development, just use std::allocator<void>.
-template<typename Alloc>
+template<typename Alloc = std::allocator<void>>
 class Block {
     using Self = Block;
 
@@ -44,21 +44,26 @@ public:
     using MessageAllocator = typename std::allocator_traits<Alloc>::
         template rebind_alloc<std::shared_ptr<MessageBase>>;
     // using allocator = Alloc;
+    
+    // Maybe deprecated?
+    Block() : Block(nullptr) {}
 
-    // Sets: prev, next, height, prev_hash (if prev != nullptr), skip (if prev != nullptr), 
-    // timestamp.
+    // Sets: prev, height(prev->height + 1 if prev != nullptr), 
+    // prev_hash (if prev != nullptr), skip (if prev != nullptr), timestamp.
     template<typename OtherAlloc = MessageAllocator>
-    Block(Self *prev, Self *next, size_t height, OtherAlloc &&alloc = OtherAlloc()) : 
-        prev(prev), next(next), skip(nullptr), height(height), hash(0), prev_hash(0), 
+    explicit Block(Self *prev, OtherAlloc &&alloc = OtherAlloc()) : 
+        prev(prev), next(nullptr), skip(nullptr), height(0), my_hash(0), prev_hash(0), 
         version(0), merkle_root_hash(0), nonce(0), 
         messages(std::forward<OtherAlloc>(alloc)) {
         if (prev) {
-            prev_hash = prev->hash;
+            height = prev->height + 1;
+            prev_hash = prev->my_hash;
             skip = prev->get_ancestor(detail::get_skip_height(height));
         }
         timestamp = clock_type::now();
     }
 
+    // Gets ancestor with specified height.
     const Self *get_ancestor(size_t height) const {
         if (height > this->height) 
             return nullptr;
@@ -84,19 +89,21 @@ public:
         return index_walk;
     }
 
+    // Gets ancestor with specified height.
     Self *get_ancestor(size_t height) {
         return const_cast<Self *>(const_cast<const Self *>(this)->get_ancestor(height));
     }
 
     // May be helpful for debug.
     friend std::ostream &operator<<(std::ostream &out, const Self &self) {
-        return out << "Block(prev=" << self.prev << ", height=" << self.height << 
-            ", hash=" << self.hash << ", merkle_root_hash=" << self.merkle_root_hash << ")";
+        return out << "Block(prev=" << self.prev << ", height=" << 
+            self.height << ", hash=" << self.my_hash << ", merkle_root_hash=" << 
+            self.merkle_root_hash << ")";
     }
    
     Self *prev, *next, *skip;   // skip: pointer to remote ancestor (skip list)
     size_t height;
-    uint256_t hash, prev_hash;  // To compute hash, please refer to bitcoin/merkleblock
+    uint256_t my_hash, prev_hash;  // To compute my_hash, please refer to bitcoin/merkleblock
     uint32_t version;
     // I did some searching, it seems a block only keeps the hash of merkle root.
     uint256_t merkle_root_hash; 
