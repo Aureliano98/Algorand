@@ -52,8 +52,8 @@ public:
     // prev_hash (if prev != nullptr), skip (if prev != nullptr), timestamp.
     template<typename OtherAlloc = MessageAllocator>
     explicit Block(Self *prev, OtherAlloc &&alloc = OtherAlloc()) : 
-        prev(prev), next(nullptr), skip(nullptr), height(0), my_hash(0), prev_hash(0), 
-        version(0), merkle_root_hash(0), nonce(0), 
+        prev(prev), next(nullptr), skip(nullptr), height(0), my_hash(0), 
+        prev_hash(0), version(0), merkle_root_hash(0), nonce(0), 
         messages(std::forward<OtherAlloc>(alloc)) {
         if (prev) {
             height = prev->height + 1;
@@ -69,12 +69,13 @@ public:
             return nullptr;
         
         const Self *index_walk = this;
-        int height_walk = this->height;
+        auto height_walk = this->height;
         while (height_walk > height) {
-            int height_skip = detail::get_skip_height(height_walk);
-            int height_skip_prev = detail::get_skip_height(height_walk - 1);
+            auto height_skip = detail::get_skip_height(height_walk);
+            auto height_skip_prev = detail::get_skip_height(height_walk - 1);
             if (index_walk->skip && (height_skip == height ||
-                (height_skip > height && !(height_skip_prev < height_skip - 2 &&
+                (height_skip > height && 
+                    !(height_skip_prev < height_skip - 2 &&
                     height_skip_prev >= height)))) {
                 // Only follow skip if prev->skip isn't better than skip->prev.
                 index_walk = index_walk->skip;
@@ -91,21 +92,24 @@ public:
 
     // Gets ancestor with specified height.
     Self *get_ancestor(size_t height) {
-        return const_cast<Self *>(const_cast<const Self *>(this)->get_ancestor(height));
+        return const_cast<Self *>(const_cast<const Self *>(this)->
+            get_ancestor(height));
     }
 
     // May be helpful for debug.
     friend std::ostream &operator<<(std::ostream &out, const Self &self) {
         return out << "Block(prev=" << self.prev << ", height=" << 
-            self.height << ", hash=" << self.my_hash << ", merkle_root_hash=" << 
-            self.merkle_root_hash << ")";
+            self.height << ", hash=" << self.my_hash << 
+            ", merkle_root_hash=" << self.merkle_root_hash << ")";
     }
    
     Self *prev, *next, *skip;   // skip: pointer to remote ancestor (skip list)
     size_t height;
-    uint256_t my_hash, prev_hash;  // To compute my_hash, please refer to bitcoin/merkleblock
+    // To compute my_hash, please refer to bitcoin/merkleblock
+    uint256_t my_hash, prev_hash;  
     uint32_t version;
-    // I did some searching, it seems a block only keeps the hash of merkle root.
+    // I did some searching, it seems a block only keeps the hash of merkle 
+    // root.
     uint256_t merkle_root_hash; 
     time_point timestamp;   // Set automatically
     uint32_t nonce;   
@@ -114,7 +118,8 @@ public:
 };
 
 template<typename Alloc>
-const Block<Alloc> *last_common_ancestor(const Block<Alloc> *x, const Block<Alloc> *y) {
+const Block<Alloc> *last_common_ancestor(const Block<Alloc> *x, 
+    const Block<Alloc> *y) {
     if (x->height > y->height)
         x = x->get_ancestor(y->height);
     else if (y->height > x->height)
