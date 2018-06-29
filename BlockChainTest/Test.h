@@ -1,5 +1,7 @@
 //machuan 2018.6.2 create
 //machuan 2018.6.12 add comments, GetUsers, GetAttackers
+//machuan 2018.6.28 change the AddDeal() to adapt the new AddDeal in Software.h
+
 #include "User.h"
 #include "Attacker.h"
 #ifndef TEST_H
@@ -68,7 +70,7 @@ public:
     {
       userB = RandUser();
     }
-    c_Users[userA]->MakeADeal(c_Users[userB], RandMoney(c_Users[userA]->GetMoney()));
+    c_Users[userA]->MakeADeal(c_Users[userB]->GetId(), RandMoney(c_Users[userA]->GetMoney()));
   }
 
   //How to attack?

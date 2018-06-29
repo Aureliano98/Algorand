@@ -1,5 +1,11 @@
+/* The simple blockchain is used to store blocks               */
+/* You should be aware of the copy constructor and = operator  */
+/* because they may behavior not according to your expectation */
+
 //machuan 2018.6.2 create
 //machuan 2018.6.12 add operator =
+//machuan 2018.6.28 header comment and place for seed
+
 #ifndef BLOCKCHAIN_H
 #define BLOCKCHAIN_H
 #include <assert.h>
@@ -56,6 +62,7 @@ public:
   {
     return length;
   }
+  
   //This is only for a test
   //It will show the whole blockchain
   void ViewBlockChain()
@@ -68,6 +75,7 @@ public:
       std::cout << "time:" << c_block->c_time << " Hash:" << c_block->c_hash << " Data:" << c_block->m_savedata<< std::endl;
       c_block = c_block->next;
     } while (c_block != NULL);
+    std::cout << std::endl;
   }
 
   //The operator is actually create a new chain
@@ -96,10 +104,12 @@ public:
 
 protected:
   BlockChain(BlockChain&) {};
+
 private:
   Block* head;
   Block* tail;
   int length;
+  //unsigned int256t seed;
   
 
   

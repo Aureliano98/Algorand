@@ -1,0 +1,11 @@
+﻿  Test.cpp
+d:\gitrepository\algorand\blockchaintest\block_gethash.h(11): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+d:\gitrepository\algorand\blockchaintest\block.h(65): warning C4477: “sprintf_s”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“unsigned __int64”
+  d:\gitrepository\algorand\blockchaintest\block.h(65): note: 请考虑在格式字符串中使用“%lld”
+  d:\gitrepository\algorand\blockchaintest\block.h(65): note: 请考虑在格式字符串中使用“%I64d”
+d:\gitrepository\algorand\blockchaintest\test.h(80): warning C4018: “>=”: 有符号/无符号不匹配
+d:\gitrepository\algorand\blockchaintest\test.h(88): warning C4018: “>=”: 有符号/无符号不匹配
+d:\gitrepository\algorand\blockchaintest\test.h(98): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+d:\gitrepository\algorand\blockchaintest\test.h(104): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+d:\gitrepository\algorand\blockchaintest\test.h(112): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+  BlockChainTest.vcxproj -> D:\GitRepository\Algorand\BlockChainTest\BlockChainTest\Debug\BlockChainTest.exe

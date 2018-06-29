@@ -1,4 +1,5 @@
 //Change the whole class to implement the hash algorithm in the block
+//just for test
 #pragma once
 #include <time.h>
 #include <cstdio>
@@ -6,12 +7,13 @@
 class Block_GetHash
 {
 public:
-  const char* operator() ()
+  std::string operator() ()
   {
     srand(time(NULL));
     int tmp = rand();
-    char* buffer;
-    sprintf(buffer, "%d", tmp);
-    return buffer;
+    char buffer[257];
+    sprintf_s(buffer, "%d", tmp);
+    std::string hash = buffer;
+    return hash;
   };
 };
