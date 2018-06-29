@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Test">
+      <UniqueIdentifier>{c394becf-d693-4369-adac-cfb2d793013c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Software">
+      <UniqueIdentifier>{41ca58cb-7177-4f41-8eab-77fae59230c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="User">
+      <UniqueIdentifier>{2fd69903-96c9-47b3-810d-ae94c065d1dc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Test.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Software.cpp">
+      <Filter>Software</Filter>
+    </ClCompile>
+    <ClCompile Include="..\User.cpp">
+      <Filter>User</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Test.h">
+      <Filter>Test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Block.h">
+      <Filter>Software</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Block_GetHash.h">
+      <Filter>Software</Filter>
+    </ClInclude>
+    <ClInclude Include="..\BlockChain.h">
+      <Filter>Software</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DealMaker.h">
+      <Filter>Software</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Software.h">
+      <Filter>Software</Filter>
+    </ClInclude>
+    <ClInclude Include="..\UserKey.h">
+      <Filter>Software</Filter>
+    </ClInclude>
+    <ClInclude Include="..\User.h">
+      <Filter>User</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Attacker.h">
+      <Filter>User</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
