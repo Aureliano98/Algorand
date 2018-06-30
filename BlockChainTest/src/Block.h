@@ -4,25 +4,34 @@
 
 #ifndef BLOCK_H
 #define BLOCK_H
-#include "Block_GetHash.h"
 #include <string>
 #include <cstdio>
 #include <time.h>
+#include "sha256.h"
+
 class Block
 {
 public:
-  Block(const char* msg,unsigned long long timesteps)
+  Block(std::string msg,time_t timesteps,Block* Prev)
   {
-    pre = NULL;
-    next = NULL;
+    pre = Prev;
+	next = NULL;
+	Prev->next = this;
+
+	round = Prev->round + 1;
+
+	m_savedata = msg;
+
+    //wait for SIG function to update seed
+
+	std::string preString = std::to_string(Prev->round) + Prev->m_savedata + Prev->seed + Prev->c_hash;
     c_hash.clear();
-    c_hash.assign(GetHash());
-    c_time.clear();
-    AddTimeStamp(timesteps);
-    m_savedata.assign(msg);
+	c_hash.assign(hashToBinaryString(sha256(preString)));
+
+    c_time = &timesteps;
   }
 
-  
+
   virtual ~Block()
   {
   }
@@ -35,7 +44,7 @@ public:
     c_time = right.c_time;
   };
 
-  Block(Block& copy) 
+  Block(Block& copy)
   {
     pre = NULL;
     next = NULL;
@@ -46,29 +55,20 @@ public:
 
 protected:
 
-  //the hash method
-  Block_GetHash GetHash;
-
 public:
 
   Block* pre;
 
   Block* next;
 
+  int round;
+
   std::string m_savedata;
+
+  std::string seed;
 
   std::string c_hash;
 
-  std::string c_time;
-private:
-
-  void AddTimeStamp(unsigned long long timesteps)
-  {
-    char buffer[20];
-    sprintf_s(buffer, "%d", timesteps);
-    c_time.assign(buffer);
-  }
-
-  
+  time_t* c_time;
 };
 #endif // !BLOCK_H

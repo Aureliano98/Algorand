@@ -10,6 +10,7 @@
 #define BLOCKCHAIN_H
 #include <assert.h>
 #include <iostream>
+#include <ctime>
 #include "Block.h"
 class BlockChain
 {
@@ -41,7 +42,7 @@ public:
     tail = head;
   }
 
-  void AddBlock(Block* newBlock)
+  void AddBlock(std::string msg)
   {
     if (head == NULL)
     {
@@ -51,8 +52,8 @@ public:
     else
     {
       length++;
-      newBlock->pre = tail;
-      tail->next = newBlock;
+	  time_t tt = time(0);
+	  Block* newBlock = new Block(msg, tt, tail);
       tail = newBlock;
     }
       
