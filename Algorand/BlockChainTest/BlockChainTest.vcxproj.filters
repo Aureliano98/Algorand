@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\Block_lyl\block_test.cpp">
+      <Filter>Block_lyl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test_mc\Software.cpp">
+      <Filter>Test_mc\Software</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test_mc\Test.cpp">
+      <Filter>Test_mc\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test_mc\User.cpp">
+      <Filter>Test_mc\User</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sha256_ckw\sha256.cc">
+      <Filter>sha256_ckw</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Test_mc">
+      <UniqueIdentifier>{5d399a20-389a-4fd3-a715-f6aeaf36ffae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Block_lyl">
+      <UniqueIdentifier>{fb2a9c2f-77ec-402a-92ed-16d6f9d00c77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test_mc\Software">
+      <UniqueIdentifier>{004bf237-0c10-47f3-bb4b-33816f097ea8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test_mc\Test">
+      <UniqueIdentifier>{74516798-5549-4978-b0ae-0bba2cd42ddd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test_mc\User">
+      <UniqueIdentifier>{b86cf9ed-a618-427e-a772-a94f590af3cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sha256_ckw">
+      <UniqueIdentifier>{c217e15e-5f72-4cc0-aa0a-1d0bbcf12057}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Test_mc\Block_GetHash.h">
+      <Filter>Test_mc\Software</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test_mc\BlockChain.h">
+      <Filter>Test_mc\Software</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test_mc\DealMaker.h">
+      <Filter>Test_mc\Software</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test_mc\Software.h">
+      <Filter>Test_mc\Software</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test_mc\UserKey.h">
+      <Filter>Test_mc\Software</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test_mc\Test.h">
+      <Filter>Test_mc\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test_mc\Attacker.h">
+      <Filter>Test_mc\User</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test_mc\User.h">
+      <Filter>Test_mc\User</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sha256_ckw\sha256.h">
+      <Filter>sha256_ckw</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test_mc\Block.h">
+      <Filter>Test_mc\Software</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
