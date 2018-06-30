@@ -139,9 +139,20 @@ std::string hashToHexString(uint256_t input) {
     char buf[2*SHA256::DIGEST_SIZE+1];
     buf[2*SHA256::DIGEST_SIZE] = 0;
     for (int i = 0; i < SHA256::DIGEST_SIZE; i++) {
-        sprintf(buf+i*2, "%02x", static_cast<unsigned char>(input % 256));
+        sprintf(buf+i, "%02x", static_cast<unsigned char>(input % 256));
         input = input >> 8;
     }
 
     return std::string(buf);
+}
+
+std::string hashToBinaryString(uint256_t input) {
+  char buf[8 * SHA256::DIGEST_SIZE + 1];
+  buf[8 * SHA256::DIGEST_SIZE] = 0;
+  for (int i = 0; i < SHA256::DIGEST_SIZE * 8; i++) {
+    sprintf(buf + i, "%d", static_cast<unsigned int>(input % 2));
+    input = input >> 1;
+  }
+
+  return std::string(buf);
 }

@@ -10,45 +10,45 @@
     <Filter Include="User">
       <UniqueIdentifier>{2fd69903-96c9-47b3-810d-ae94c065d1dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="block">
+      <UniqueIdentifier>{413a3147-b63e-4be7-a101-363715b27436}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Test.cpp">
-      <Filter>Test</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Software.cpp">
+    <ClCompile Include="src\Software.cpp">
       <Filter>Software</Filter>
     </ClCompile>
-    <ClCompile Include="..\User.cpp">
+    <ClCompile Include="src\Test.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\User.cpp">
       <Filter>User</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Test.h">
-      <Filter>Test</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Block.h">
-      <Filter>Software</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Block_GetHash.h">
-      <Filter>Software</Filter>
-    </ClInclude>
-    <ClInclude Include="..\BlockChain.h">
-      <Filter>Software</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DealMaker.h">
-      <Filter>Software</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Software.h">
-      <Filter>Software</Filter>
-    </ClInclude>
-    <ClInclude Include="..\UserKey.h">
-      <Filter>Software</Filter>
-    </ClInclude>
     <ClInclude Include="..\User.h">
       <Filter>User</Filter>
     </ClInclude>
     <ClInclude Include="..\Attacker.h">
       <Filter>User</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Block.h">
+      <Filter>Software</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Block_GetHash.h">
+      <Filter>Software</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BlockChain.h">
+      <Filter>Software</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DealMaker.h">
+      <Filter>Software</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Software.h">
+      <Filter>Software</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test.h">
+      <Filter>Test</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

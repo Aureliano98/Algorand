@@ -56,13 +56,15 @@ public:
   }
 
   //this should be read only but I don't know how to do it.
-  std::string& MyPriKey()
+  // LYL: I think this suffices.
+  const std::string& MyPriKey() const noexcept
   {
     return m_userKey.pri_key;
   }
 
   //this should be read only but I don't know how to do it.
-  std::string& MyPubKey()
+  // LYL: I think this suffices.
+  const std::string& MyPubKey() const noexcept
   {
     return m_userKey.pub_key;
   }

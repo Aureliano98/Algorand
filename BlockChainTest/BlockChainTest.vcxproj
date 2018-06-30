@@ -69,7 +69,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\Users\machuan\Desktop\boost_1_67_0;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\machuan\Desktop\boost_1_67_0\stage\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -115,20 +118,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Software.cpp" />
-    <ClCompile Include="..\Test.cpp" />
-    <ClCompile Include="..\User.cpp" />
+    <ClCompile Include="src\Software.cpp" />
+    <ClCompile Include="src\Test.cpp" />
+    <ClCompile Include="src\User.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Attacker.h" />
-    <ClInclude Include="..\Block.h" />
-    <ClInclude Include="..\BlockChain.h" />
-    <ClInclude Include="..\Block_GetHash.h" />
-    <ClInclude Include="..\DealMaker.h" />
-    <ClInclude Include="..\Software.h" />
-    <ClInclude Include="..\Test.h" />
     <ClInclude Include="..\User.h" />
-    <ClInclude Include="..\UserKey.h" />
+    <ClInclude Include="src\Block.h" />
+    <ClInclude Include="src\BlockChain.h" />
+    <ClInclude Include="src\Block_GetHash.h" />
+    <ClInclude Include="src\DealMaker.h" />
+    <ClInclude Include="src\Software.h" />
+    <ClInclude Include="src\Test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
