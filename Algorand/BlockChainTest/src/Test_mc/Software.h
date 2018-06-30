@@ -39,7 +39,7 @@ public:
   };
 
   //move from user class
-  void SetFistBlock(Block* first)
+  void SetFirstBlock(Block* first)
   {
     m_blockchain.AddHead(first);
   }
@@ -57,9 +57,9 @@ public:
 
   //this should be read only but I don't know how to do it.
   // LYL: I think this suffices.
-  const std::string& MyPriKey() const noexcept
+  const std::string& MyScrKey() const noexcept
   {
-    return m_userKey.pri_key;
+    return m_userKey.scr_key;
   }
 
   //this should be read only but I don't know how to do it.
