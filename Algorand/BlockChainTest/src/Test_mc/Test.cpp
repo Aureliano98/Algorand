@@ -15,7 +15,7 @@ int main()
   testmain.AddUsers(users);
   for (int i = 0; i < users; ++i)
   {
-    testmain.GetUser(i)->SetFistBlock(new Block("",0));
+    testmain.GetUser(i)->SetFirstBlock(new Block("",0));
   }
 
   //The first test program has only honest users

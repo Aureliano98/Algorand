@@ -28,7 +28,7 @@ public:
   }
 
   //two kind of keys
-  std::string pub_key, pri_key;
+  std::string pub_key, scr_key;
 
 private:
 
