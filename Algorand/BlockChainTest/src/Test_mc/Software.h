@@ -45,9 +45,15 @@ public:
   }
 
   //this should try to create a new block and add it to all the blockchains
-  void MakeADeal(int payer, int receiver, int payment) 
+  void MakeADeal(Software receiver, int payment, std::string publicInfo, std::string publicInfo, std::string secretInfo) 
   {
-    m_blockchain.AddBlock(m_dealmaker.MakeADeal(payer, receiver, payment));
+    if(m_money < payment)
+    {
+      std::cout << "No enough money!" << endl;
+      return;
+    }
+
+    m_blockchain.AddBlock(m_dealmaker.MakeADeal(*this, receiver, payment, publicInfo, secretInfo));
   }
 
   int GetMoney() const
@@ -56,15 +62,13 @@ public:
   }
 
   //this should be read only but I don't know how to do it.
-  // LYL: I think this suffices.
-  const std::string& MyScrKey() const noexcept
+  std::string& MyPriKey()
   {
-    return m_userKey.scr_key;
+    return m_userKey.pri_key;
   }
 
   //this should be read only but I don't know how to do it.
-  // LYL: I think this suffices.
-  const std::string& MyPubKey() const noexcept
+  std::string& MyPubKey()
   {
     return m_userKey.pub_key;
   }
