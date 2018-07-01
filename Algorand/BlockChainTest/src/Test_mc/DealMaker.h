@@ -23,10 +23,12 @@ public:
   }
 
   //payment:(pk, pk', money, not sensitive information, sensitive information)
-  std::string MakeADeal(Software from, Software to, int money, std::string publicInfo, std::string secretInfo) 
-  {
-  	return SIG(from.MyPubkey + to.MyPubKey + std::string(money) + publicInfo + hashToBinaryString(secretInfo));
-  };
+  std::string MakeADeal(const Software &from, const Software &to, int money,
+							const std::string& publicInfo, const std::string& secretInfo)
+	{
+		return SIG(from.MyPubKey() + to.MyPubKey() + std::to_string(money) +
+					publicInfo + hashToBinaryString(sha256(secretInfo)));
+	};
 
 };
 #endif // !DEALMAKER_H
