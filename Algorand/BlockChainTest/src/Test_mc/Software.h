@@ -58,6 +58,18 @@ public:
     m_blockchain.AddBlock(m_dealmaker.MakeADeal(payer, receiver, payment));
   }
 
+  //cjw MakeADeal
+  void MakeADeal(Software receiver, int payment, std::string publicInfo, std::string publicInfo, std::string secretInfo) 
+  {
+    if(m_money < payment)
+    {
+      std::cout << "No enough money!" << endl;
+      return;
+    }
+
+    m_blockchain.AddBlock(m_dealmaker.MakeADeal(*this, receiver, payment, publicInfo, secretInfo));
+  }
+
   int GetMoney() const
   {
     return m_money;

@@ -7,6 +7,7 @@
 #define DEALMAKER_H
 #include "Block.h"
 #include "McTimer.h"
+#include "sha256.h"
 #include <string>
 class DealMaker
 {
@@ -19,6 +20,12 @@ public:
     std::string result = buffer;
     Block* newBlock = new Block(result);
     return newBlock;
+  }
+
+  //payment:(pk, pk', money, not sensitive information, sensitive information)
+  std::string MakeADeal(Software from, Software to, int money, std::string publicInfo, std::string secretInfo) 
+  {
+  	return SIG(from.MyPubkey + to.MyPubKey + std::string(money) + publicInfo + hashToBinaryString(secretInfo));
   };
 
 };
