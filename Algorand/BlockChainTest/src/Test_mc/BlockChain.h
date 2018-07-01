@@ -45,7 +45,7 @@ public:
     tail = head;
   }
 
-  /*
+
   void AddBlock(std::string msg)
   {
     if (head == NULL)
@@ -60,7 +60,8 @@ public:
       tail = newBlock;
     }
       
-  }*/
+  }
+
   void AddBlock(Block* newBlock)
   {
     if (head == NULL)
