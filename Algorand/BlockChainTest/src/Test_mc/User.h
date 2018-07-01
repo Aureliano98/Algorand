@@ -10,13 +10,14 @@
 #include "Software.h"
 #include <string>
 #include <time.h>
-
+#include <fstream>
+class Test;
 class Attacker;
 class User
 {
 public:
   friend class Attacker;
-
+  friend class Test;
   User()
   {
     m_identifier = c_Id++;
@@ -51,20 +52,26 @@ public:
   {
     return m_identifier;
   }
-
-  //All the users should be intialized by the first block
-  void SetFirstBlock(Block* first)
-  {
-    m_software.SetFirstBlock(first);
-  }
   
   void PrintBlockChain()
   {
     m_software.PrintBlockChain();
   }
 
+  void SaveBlockChain()
+  {
+    char buffer[25];
+    sprintf_s(buffer, "data//AUser%d.txt", m_identifier);
+    std::ofstream fout(buffer);
+    m_software.SaveBlockChain(fout);
+  }
 protected:
 
+  //All the users should be intialized by the first block
+  void SetFirstBlock(Block* first)
+  {
+    m_software.SetFirstBlock(first);
+  }
   //use the number of users to give identifier
   //c_Id shows how many users have been created
   static int c_Id;

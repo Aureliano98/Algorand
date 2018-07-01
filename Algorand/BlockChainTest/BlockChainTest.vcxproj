@@ -75,7 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>C:\Users\machuan\Desktop\boost_1_67_0;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\machuan\Desktop\boost_1_67_0\stage;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\machuan\Desktop\boost_1_67_0\stage;C:\Users\machuan\Desktop\boost_1_67_0\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -92,6 +92,9 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>C:\Users\machuan\Desktop\boost_1_67_0\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -123,8 +126,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\sha256_ckw\sha256.cc" />
+    <ClCompile Include="src\Test_mc\Block.cpp" />
     <ClCompile Include="src\Test_mc\Software.cpp" />
-    <ClCompile Include="src\Test_mc\Test.cpp" />
+    <ClCompile Include="src\Test_mc\main.cpp" />
     <ClCompile Include="src\Test_mc\User.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -132,8 +136,8 @@
     <ClInclude Include="src\Test_mc\Attacker.h" />
     <ClInclude Include="src\Test_mc\Block.h" />
     <ClInclude Include="src\Test_mc\BlockChain.h" />
+    <ClInclude Include="src\Test_mc\Cloud.h" />
     <ClInclude Include="src\Test_mc\DealMaker.h" />
-    <ClInclude Include="src\Test_mc\McTimer.h" />
     <ClInclude Include="src\Test_mc\Software.h" />
     <ClInclude Include="src\Test_mc\Test.h" />
     <ClInclude Include="src\Test_mc\User.h" />

@@ -12,6 +12,7 @@
 #include <assert.h>
 #include <iostream>
 #include <ctime>
+#include <fstream>
 #include "Block.h"
 class DealMaker;
 
@@ -45,6 +46,10 @@ public:
     tail = head;
   }
 
+  const Block* GetTail() const
+  {
+    return tail;
+  }
 
   void AddBlock(std::string msg)
   {
@@ -99,6 +104,22 @@ public:
     std::cout << std::endl;
   }
 
+  //This is only for a test
+  //It will show the whole blockchain
+  void PrintBlockChain(std::ofstream& fout)
+  {
+    Block* c_block = head;
+    int count = 0;
+    do
+    {
+      fout << "No." << ++count << ":" << std::endl
+        << "Turn:" << c_block->round << std::endl
+        << "Hash:" << c_block->c_hash << std::endl 
+        << "Data:" << c_block->m_savedata << std::endl;
+      c_block = c_block->next;
+    } while (c_block != NULL);
+    fout << std::endl;
+  }
   //The operator is actually create a new chain
   //with the same content
   BlockChain& operator = (const BlockChain& right)
@@ -125,6 +146,7 @@ public:
   }
 
 protected:
+
   BlockChain(BlockChain&) {};
 
 private:

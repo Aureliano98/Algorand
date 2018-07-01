@@ -5,13 +5,13 @@
 //mc 2018.7.1 change the constructors
 
 #ifndef BLOCK_H
+
 #define BLOCK_H
 #include <string>
 #include <cstdio>
 #include <time.h>
 #include <cassert>
 #include "../sha256_ckw/sha256.h"
-
 class Block
 {
 public:
@@ -25,6 +25,8 @@ public:
 
     m_savedata.clear();
 
+    //This part need to be changed
+    //I don't know how to set the first seed and hash
     srand(time(NULL));
     char buffer[10];
     sprintf_s(buffer, "%d", rand() % 10000000000);
@@ -33,7 +35,7 @@ public:
     c_hash.assign(hashToBinaryString(sha256(str)));
   }
 
-  //The rest block is based the last one
+  //A block is based on the last one
   Block(std::string msg,Block* Prev)
   {
     assert(Prev);
@@ -72,9 +74,7 @@ public:
     c_hash.assign(hashToBinaryString(sha256(str)));
   }
 
-  virtual ~Block()
-  {
-  }
+  ~Block() {};
 
   //please only use this for initialization
   Block& operator = (const Block& right)
@@ -82,6 +82,7 @@ public:
     m_savedata = right.m_savedata;
     c_hash = right.c_hash;
   };
+
 
   Block(Block& copy)
   {
@@ -93,6 +94,15 @@ public:
 
   //Block.h is only one component of BlockChain
   //It shouldn't be anywhere else
+
+  bool operator == (const Block& right)
+  {
+    if (right.m_savedata == m_savedata && right.pre == pre && right.next == next
+      && right.round == round && right.seed == seed && right.c_hash == c_hash)
+      return true;
+    else
+      return false;
+  }
 public:
 
   Block* pre;
@@ -101,10 +111,14 @@ public:
 
   int round;
 
+  //The savedata contains all the payment
   std::string m_savedata;
 
   std::string seed;
 
   std::string c_hash;
+
+  //Use this to create a blank block
+  const static std::string VoidMsg;
 };
 #endif // !BLOCK_H

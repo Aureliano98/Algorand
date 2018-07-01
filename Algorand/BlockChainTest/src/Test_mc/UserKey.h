@@ -1,11 +1,14 @@
 /* This ask for a class to generate keys for users */
 
 //machuan 2018.6.29 create
+//machuan 2018.7.1 add class Class and several keys for ephemeral keys
 
 #ifndef USERKEY_H
 #define USERKEY_H
 
 #include <string>
+#include <vector>
+
 class UserKey
 {
 public:
@@ -28,7 +31,13 @@ public:
   }
 
   //two kind of keys
-  std::string pub_key, scr_key;
+  //Class is a class qdl create to store the big number of keys
+  //It is not finished yet
+  Class pub_key, scr_key;
+  
+  //You can change the name of these ephemeral keys
+  Class PMK, SMK;
+  std::vector <Class*> pk, sk;
 
 private:
 
