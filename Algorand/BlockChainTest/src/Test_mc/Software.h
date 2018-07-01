@@ -2,6 +2,7 @@
 /* A software is bond to a certain user */
 
 //machuan 2018.6.29 create
+//mc 2018.7.1 remove bug from SetFirstBlock class
 
 #ifndef SOFTWARE_H
 #define SOFTWARE_H
@@ -13,10 +14,13 @@
 #include <vector>
 
 class User;
+class Sortition;
 class Software
 {
 
 public:
+
+  friend Sortition;
 
   Software() 
   {
@@ -26,6 +30,9 @@ public:
     s_softwarelist.push_back(this);
   };
   
+  ~Software()
+  {
+  }
   //A software need to have a single user
   void BondUser(User* user) 
   {
@@ -41,7 +48,8 @@ public:
   //move from user class
   void SetFirstBlock(Block* first)
   {
-    m_blockchain.AddHead(first);
+    Block* copy = new Block(*first);
+    m_blockchain.AddHead(copy);
   }
 
   //this should try to create a new block and add it to all the blockchains

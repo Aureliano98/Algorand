@@ -11,9 +11,13 @@
 class Test
 {
 public:
-  Test() {};
+  Test() 
+  {
+    c_Users.clear();
+    c_Attackers.clear();
+  };
 
-  virtual ~Test()
+  ~Test()
  {
    while (c_Users.size() != 0)
    {

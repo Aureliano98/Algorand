@@ -13,11 +13,12 @@ int main()
   int users;
   cin >> users;
   testmain.AddUsers(users);
+  Block *firstblock = new Block();
   for (int i = 0; i < users; ++i)
   {
-    testmain.GetUser(i)->SetFirstBlock(new Block("",0));
+    testmain.GetUser(i)->SetFirstBlock(firstblock);
   }
-
+  delete firstblock;
   //The first test program has only honest users
   /*
   int attackers;
@@ -29,7 +30,7 @@ int main()
     testmain.GetAttacker(i)->SetFistBlock(new Block("", 0));
   }
   */
-
+  
   cout << "Input the looping times: ";
   int maxtime = 0;
   cin >> maxtime;
@@ -52,6 +53,7 @@ int main()
   //there should be a saving method
   testmain.SaveData();
   */
+  
   system("pause");
   return 0;
 

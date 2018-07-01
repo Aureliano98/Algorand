@@ -2,36 +2,75 @@
 //machuan 2018.6.12 add operator =,and copy constructor
 //machuan 2018.6.29 edit the distructor to avoid bug
 //cjw 2018.6.30 change the constructor and the hash method
+//mc 2018.7.1 change the constructors
 
 #ifndef BLOCK_H
 #define BLOCK_H
 #include <string>
 #include <cstdio>
 #include <time.h>
+#include <cassert>
 #include "../sha256_ckw/sha256.h"
 
 class Block
 {
 public:
-  Block(std::string msg,time_t timesteps,Block* Prev)
+  //The first block
+  Block()
   {
+    pre = NULL;
+    next = NULL;
+
+    round = 0;
+
+    m_savedata.clear();
+
+    srand(time(NULL));
+    char buffer[10];
+    sprintf_s(buffer, "%d", rand() % 10000000000);
+    std::string str = buffer;
+    c_hash.clear();
+    c_hash.assign(hashToBinaryString(sha256(str)));
+  }
+
+  //The rest block is based the last one
+  Block(std::string msg,Block* Prev)
+  {
+    assert(Prev);
     pre = Prev;
-	next = NULL;
-	Prev->next = this;
+	  next = NULL;
+	  Prev->next = this;
 
-	round = Prev->round + 1;
 
-	m_savedata = msg;
+	  round = Prev->round + 1;
+
+	  m_savedata = msg;
 
     //wait for SIG function to update seed
 
-	std::string preString = std::to_string(Prev->round) + Prev->m_savedata + Prev->seed + Prev->c_hash;
-    c_hash.clear();
-	c_hash.assign(hashToBinaryString(sha256(preString)));
-
-    c_time = &timesteps;
+	  std::string preString = std::to_string(Prev->round) + Prev->m_savedata + Prev->seed + Prev->c_hash;
+      c_hash.clear();
+	  c_hash.assign(hashToBinaryString(sha256(preString)));
   }
+  
+  //Test only
+  Block(std::string msg)
+  {
+    pre = NULL;
+    next = NULL;
 
+    round = 0;
+
+    m_savedata.clear();
+    m_savedata = msg;
+
+    srand(time(NULL));
+    char buffer[10];
+    sprintf_s(buffer, "%d", rand() % 10000000000);
+    std::string str = buffer;
+    c_hash.clear();
+    c_hash.assign(hashToBinaryString(sha256(str)));
+  }
 
   virtual ~Block()
   {
@@ -42,20 +81,18 @@ public:
   {
     m_savedata = right.m_savedata;
     c_hash = right.c_hash;
-    c_time = right.c_time;
   };
 
   Block(Block& copy)
   {
-    pre = NULL;
-    next = NULL;
+    pre = copy.pre;
+    next = copy.next;
     c_hash = copy.c_hash;
-    c_time = copy.c_time;
     m_savedata = copy.m_savedata;
   };
 
-protected:
-
+  //Block.h is only one component of BlockChain
+  //It shouldn't be anywhere else
 public:
 
   Block* pre;
@@ -69,7 +106,5 @@ public:
   std::string seed;
 
   std::string c_hash;
-
-  time_t* c_time;
 };
 #endif // !BLOCK_H

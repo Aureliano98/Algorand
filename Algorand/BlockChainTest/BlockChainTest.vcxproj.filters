@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="src\Block_lyl\block_test.cpp">
-      <Filter>Block_lyl</Filter>
-    </ClCompile>
     <ClCompile Include="src\Test_mc\Software.cpp">
       <Filter>Test_mc\Software</Filter>
     </ClCompile>
@@ -21,9 +18,6 @@
     <Filter Include="Test_mc">
       <UniqueIdentifier>{5d399a20-389a-4fd3-a715-f6aeaf36ffae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Block_lyl">
-      <UniqueIdentifier>{fb2a9c2f-77ec-402a-92ed-16d6f9d00c77}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Test_mc\Software">
       <UniqueIdentifier>{004bf237-0c10-47f3-bb4b-33816f097ea8}</UniqueIdentifier>
     </Filter>
@@ -36,11 +30,11 @@
     <Filter Include="sha256_ckw">
       <UniqueIdentifier>{c217e15e-5f72-4cc0-aa0a-1d0bbcf12057}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Test_mc\BasicTool">
+      <UniqueIdentifier>{599cb873-18dc-4410-932e-366d0b1133e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Test_mc\Block_GetHash.h">
-      <Filter>Test_mc\Software</Filter>
-    </ClInclude>
     <ClInclude Include="src\Test_mc\BlockChain.h">
       <Filter>Test_mc\Software</Filter>
     </ClInclude>
@@ -67,6 +61,9 @@
     </ClInclude>
     <ClInclude Include="src\Test_mc\Block.h">
       <Filter>Test_mc\Software</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test_mc\McTimer.h">
+      <Filter>Test_mc\BasicTool</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

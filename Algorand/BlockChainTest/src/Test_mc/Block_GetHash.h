@@ -4,6 +4,7 @@
 #include <time.h>
 #include <cstdio>
 #include <cstdlib>
+#include <string>
 class Block_GetHash
 {
 public:

@@ -5,6 +5,7 @@
 //machuan 2018.6.2 create
 //machuan 2018.6.12 add operator =
 //machuan 2018.6.28 header comment and place for seed
+//machuan 2018.6.29 remove bug from AddBlock(), add DealMaker as a friend
 
 #ifndef BLOCKCHAIN_H
 #define BLOCKCHAIN_H
@@ -12,10 +13,12 @@
 #include <iostream>
 #include <ctime>
 #include "Block.h"
+class DealMaker;
+
 class BlockChain
 {
 public:
-
+  friend DealMaker;
   BlockChain() 
   {
     head = NULL;
@@ -23,7 +26,7 @@ public:
     length = 0;
   }
 
-  virtual ~BlockChain()
+  ~BlockChain()
   {
     Block* tmp;
     while (head != tail)
@@ -42,6 +45,7 @@ public:
     tail = head;
   }
 
+  /*
   void AddBlock(std::string msg)
   {
     if (head == NULL)
@@ -52,11 +56,26 @@ public:
     else
     {
       length++;
-	  time_t tt = time(0);
-	  Block* newBlock = new Block(msg, tt, tail);
+	    Block* newBlock = new Block(msg,tail);
       tail = newBlock;
     }
       
+  }*/
+  void AddBlock(Block* newBlock)
+  {
+    if (head == NULL)
+    {
+      std::cerr << "No head in BlockChain" << std::endl;
+      assert(0);
+    }
+    else
+    {
+      length++;
+      tail->next = newBlock;
+      newBlock->pre = tail;
+      tail = newBlock;
+    }
+
   }
 
   int Length() const
@@ -73,7 +92,7 @@ public:
     do
     {
       printf("No.%d:", ++count);
-      std::cout << "time:" << c_block->c_time << " Hash:" << c_block->c_hash << " Data:" << c_block->m_savedata<< std::endl;
+      std::cout << "Turn:" << c_block->round << " Hash:" << c_block->c_hash << " Data:" << c_block->m_savedata<< std::endl;
       c_block = c_block->next;
     } while (c_block != NULL);
     std::cout << std::endl;
@@ -96,7 +115,8 @@ public:
       index = right.head->next;
       while (index != NULL)
       {
-        AddBlock(new Block(*index));
+        AddBlock(index);
+        index = index->next;
       }
     }
     
@@ -107,9 +127,13 @@ protected:
   BlockChain(BlockChain&) {};
 
 private:
+
   Block* head;
+
   Block* tail;
+
   int length;
+
   //unsigned int256t seed;
   
 

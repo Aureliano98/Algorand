@@ -21,6 +21,7 @@ public:
   {
     m_identifier = c_Id++;
     m_type = Honest;
+    m_software.BondUser(this);
   }
 
   enum Type
@@ -52,9 +53,9 @@ public:
   }
 
   //All the users should be intialized by the first block
-  void SetFistBlock(Block* first)
+  void SetFirstBlock(Block* first)
   {
-    m_software.SetFistBlock(first);
+    m_software.SetFirstBlock(first);
   }
   
   void PrintBlockChain()
