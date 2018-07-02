@@ -65,6 +65,7 @@ public:
     std::ofstream fout(buffer);
     m_software.SaveBlockChain(fout);
   }
+
 protected:
 
   //All the users should be intialized by the first block

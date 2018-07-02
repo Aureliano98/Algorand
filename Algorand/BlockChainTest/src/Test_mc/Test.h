@@ -118,6 +118,8 @@ public:
   
   void Step()
   {
+    timestep++;
+
     //Add new users with possibility 1%
     if (RandBool(10))
     {

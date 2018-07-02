@@ -33,11 +33,11 @@ public:
   //two kind of keys
   //Class is a class qdl create to store the big number of keys
   //It is not finished yet
-  Class pub_key, scr_key;
+  //Class pub_key, scr_key;
   
   //You can change the name of these ephemeral keys
-  Class PMK, SMK;
-  std::vector <Class*> pk, sk;
+  //Class PMK, SMK;
+  //std::vector <Class*> pk, sk;
 
 private:
 

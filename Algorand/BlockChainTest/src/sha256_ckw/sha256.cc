@@ -115,8 +115,8 @@ void SHA256::final(unsigned char *digest)
         SHA2_UNPACK32(m_h[i], &digest[i << 2]);
     }
 }
- 
-uint256_t sha256(std::string input)
+//mc                  add reference
+uint256_t sha256(std::string& input) 
 {
     unsigned char digest[SHA256::DIGEST_SIZE];
     memset(digest,0,SHA256::DIGEST_SIZE);
@@ -136,13 +136,13 @@ uint256_t sha256(std::string input)
 }
 
 std::string hashToHexString(uint256_t input) {
-    char buf[2*SHA256::DIGEST_SIZE+1];
+    char buf[2*SHA256::DIGEST_SIZE + 1];
     buf[2*SHA256::DIGEST_SIZE] = 0;
     for (int i = 0; i < SHA256::DIGEST_SIZE; i++) {
-        sprintf(buf+i, "%02x", static_cast<unsigned char>(input % 256));
+        sprintf(buf + i, "%02x", static_cast<unsigned char>(input % 256));
         input = input >> 8;
     }
-
+    
     return std::string(buf);
 }
 
@@ -150,7 +150,7 @@ std::string hashToBinaryString(uint256_t input) {
   char buf[8 * SHA256::DIGEST_SIZE + 1];
   buf[8 * SHA256::DIGEST_SIZE] = 0;
   for (int i = 0; i < SHA256::DIGEST_SIZE * 8; i++) {
-    sprintf(buf + i, "%d", static_cast<unsigned int>(input % 2));
+    sprintf(buf + i, "%d", static_cast<bool>(input % 2));
     input = input >> 1;
   }
 

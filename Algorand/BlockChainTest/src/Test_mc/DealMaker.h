@@ -26,7 +26,7 @@ public:
 							const std::string& publicInfo, const std::string& secretInfo)
 	{
 		return SIG(from.MyPubKey() + to.MyPubKey() + std::to_string(money) +
-					publicInfo + hashToBinaryString(sha256(secretInfo)));
+					publicInfo + hashToHexString(sha256(secretInfo)));
 	};
   */
 };

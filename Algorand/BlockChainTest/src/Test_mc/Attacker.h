@@ -20,7 +20,15 @@ public:
     m_members.push_back(corrupted);
   }
 
-  void AssignDecision() {};
+  template <class T>
+  void AssignDecision(int sender,int receiver,MSG<T> msg) 
+  {
+    for (int i = 0; i < m_members.size(); ++i)
+    {
+      if (m_members[i]->GetId() == sender)
+        m_members[i]->m_software.SendMSG(msg, receiver);
+    }
+  };
 
 private:
   Attacker & operator = (Attacker&) {};

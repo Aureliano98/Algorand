@@ -16,6 +16,27 @@
 
 class User;
 class Sortition;
+
+//MSG is a structure which stores a kind of msg and count the times you get it
+template<class T>
+struct MSG
+{
+  MSG() :msg_msg() 
+  {
+    msg_count = 0;
+  }
+  MSG(T msg) : msg_msg(msg)
+  {
+    msg_count = 0;
+  }
+  T msg_msg;
+  int msg_count;
+  bool operator == (const MSG<T>& right)
+  {
+    return (*this == right);
+  }
+};
+
 class Software
 {
 
@@ -79,17 +100,17 @@ public:
 
   //this should be read only but I don't know how to do it.
   // LYL: I think this suffices.
-  const Class& MyScrKey() const noexcept
-  {
-    return m_userKey.scr_key;
-  }
+  //const Class& MyScrKey() const noexcept
+  //{
+  //  return m_userKey.scr_key;
+  //}
 
   //this should be read only but I don't know how to do it.
   // LYL: I think this suffices.
-  const Class& MyPubKey() const noexcept
-  {
-    return m_userKey.pub_key;
-  }
+  //const Class& MyPubKey() const noexcept
+  //{
+  //  return m_userKey.pub_key;
+  //}
   
   void PrintBlockChain()
   {
@@ -101,7 +122,23 @@ public:
     m_blockchain.PrintBlockChain(fout);
   }
   
-  
+  template<class T>
+  void SendMSG(MSG<T>& msg, int identifier) const
+  {
+    s_softwarelist[identifier]->GetMSG(msg);
+  }
+
+  //???
+  void GetMSG(MSG<Block*>& msg) const
+  {
+    //???
+  }
+
+  //???
+  void GetMSG(MSG<std::string>& msg)const
+  {
+    //???
+  }
 
 private:
 
@@ -113,11 +150,6 @@ private:
   //the original method is to create an observer
   //this should do the same thing
   static std::vector<Software*> s_softwarelist;
-
-  //Because the one user can build a lot of blocks
-  //So the unproven blocks are stored here
-  //This can be useless 
-  std::vector<Block*> m_WaitingBlocks;
 
   BlockChain m_blockchain;
 

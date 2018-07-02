@@ -32,8 +32,8 @@ protected:
     unsigned char m_block[2*SHA224_256_BLOCK_SIZE];
     uint32 m_h[8];
 };
- 
-uint256_t sha256(std::string input);
+//mc                   add reference
+uint256_t sha256(std::string& input);
 std::string hashToHexString(uint256_t);
 std::string hashToBinaryString(uint256_t);
 

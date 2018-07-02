@@ -32,7 +32,7 @@ public:
     sprintf_s(buffer, "%d", rand() % 10000000000);
     std::string str = buffer;
     c_hash.clear();
-    c_hash.assign(hashToBinaryString(sha256(str)));
+    c_hash.assign(hashToHexString(sha256(str)));
   }
 
   //A block is based on the last one
@@ -52,7 +52,7 @@ public:
 
 	  std::string preString = std::to_string(Prev->round) + Prev->m_savedata + Prev->seed + Prev->c_hash;
       c_hash.clear();
-	  c_hash.assign(hashToBinaryString(sha256(preString)));
+	  c_hash.assign(hashToHexString(sha256(preString)));
   }
   
   //Test only
@@ -71,7 +71,7 @@ public:
     sprintf_s(buffer, "%d", rand() % 10000000000);
     std::string str = buffer;
     c_hash.clear();
-    c_hash.assign(hashToBinaryString(sha256(str)));
+    c_hash.assign(hashToHexString(sha256(str)));
   }
 
   ~Block() {};
