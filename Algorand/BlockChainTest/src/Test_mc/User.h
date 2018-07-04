@@ -22,7 +22,7 @@ public:
   {
     m_identifier = c_Id++;
     m_type = Honest;
-    m_software.BondUser(this);
+    m_software.BondUser(m_identifier);
   }
 
   enum Type
@@ -33,9 +33,9 @@ public:
   };
   
   //To create a deal message and then ask for a creation of blocks
-  void MakeADeal(int identifier,int bill) 
+  void CreatPay(int receiver,const std::string& pubInfo,const std::string& scrInfo,int payment) 
   {
-    m_software.MakeADeal(m_identifier,identifier, bill);
+    m_software.CreatPay(m_identifier, receiver, pubInfo, scrInfo, payment);
   };
 
   Type GetType() const

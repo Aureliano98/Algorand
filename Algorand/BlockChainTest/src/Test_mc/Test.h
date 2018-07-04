@@ -6,6 +6,7 @@
 #define TEST_H
 #include "User.h"
 #include "Attacker.h"
+#include "MRandom.h"
 #include <boost/timer/timer.hpp>
 #include <vector>
 #include <time.h>
@@ -121,15 +122,15 @@ public:
     timestep++;
 
     //Add new users with possibility 1%
-    if (RandBool(10))
+    if (MRandom::RandBool(10))
     {
       AddUsers(1);
     }
       
 
     //Then deals will occur
-    int num = RandInt(0, c_Users.size());
-    AddDeals(num);
+    int num = MRandom::RandInt(0, c_Users.size()/2);
+    AddPays(num);
     
     //Then we get to an agreement
     //Agreement();
@@ -152,57 +153,41 @@ protected:
 
   //This will cause a formation of a random deal
   //with random users and random money
-  void AddADeal()
+  void AddAPay()
   {
     //randomly choose two people to make a deal
     int userA = 0, userB = 0;
-    userA = RandInt(0, c_Users.size());
-    userB = RandInt(0, c_Users.size());
+    userA = MRandom::RandInt(0, c_Users.size());
+    userB = MRandom::RandInt(0, c_Users.size());
     while (userA == userB)
     {
-      userB = RandInt(0, c_Users.size());
+      userB = MRandom::RandInt(0, c_Users.size());
     }
 
     //userA wants to make a deal with userB
-    c_Users[userA]->MakeADeal(c_Users[userB]->GetId(), RandInt(1,c_Users[userA]->GetMoney()));
+    c_Users[userA]->CreatPay(c_Users[userB]->GetId(),std::to_string(m_runtime.elapsed().wall()),std::to_string(userA),MRandom::RandInt(1,c_Users[userA]->GetMoney()));
   }
 
   //Add several deals
   //with random users and random money
-  void AddDeals(int num)
+  void AddPays(int num)
   {
     for (int i = 0; i < num; ++i)
     {
       //randomly two people to make a deal
       int userA = 0, userB = 0;
-      userA = RandInt(0, c_Users.size());
-      userB = RandInt(0, c_Users.size());
+      userA = MRandom::RandInt(0, c_Users.size());
+      userB = MRandom::RandInt(0, c_Users.size());
       while (userA == userB)
       {
-        userB = RandInt(0, c_Users.size());
+        userB = MRandom::RandInt(0, c_Users.size());
       }
-      c_Users[userA]->MakeADeal(c_Users[userB]->GetId(), RandInt(1, c_Users[userA]->GetMoney()));
+      c_Users[userA]->MakeADeal(c_Users[userB]->GetId(), MRandom::RandInt(1, c_Users[userA]->GetMoney()));
     }
   }
 
-  //Give a random int [minimum,maximum];
-  int RandInt(int minimum,int maximum) const
-  {
-    srand(m_runtime.elapsed().wall);
-    return rand() % maximum + minimum;
-  }
-
-  //return random > micros ? false : true
-  //random->[0,1000]
-  bool RandBool(int micros = 0) const
-  {
-    srand(m_runtime.elapsed().wall);
-    unsigned int random = rand() % 1001;
-    return random > micros ? false : true;
-  }
   
 private:
-
   void operator = (Test&) {};
   Test(Test&) {};
 

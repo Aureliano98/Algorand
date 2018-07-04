@@ -7,6 +7,7 @@
 #ifndef SOFTWARE_H
 #define SOFTWARE_H
 
+#include "sortition.h"
 #include "UserKey.h"
 #include "BlockChain.h"
 #include "DealMaker.h"
@@ -14,7 +15,6 @@
 #include <vector>
 #include <fstream>
 
-class User;
 class Sortition;
 
 //MSG is a structure which stores a kind of msg and count the times you get it
@@ -56,7 +56,7 @@ public:
   {
   }
   //A software need to have a single user
-  void BondUser(User* user) 
+  void BondUser(int user) 
   {
     if (!isBond)
     {
@@ -75,14 +75,14 @@ public:
   }
 
   //Test only
-  void MakeADeal(int payer, int receiver, int payment) 
+  void MakeADeal(int payer, int receiver, const std::string& publicInfo,const std::string& secretInfo,int payment)
   {
     m_blockchain.AddBlock(m_dealmaker.MakeADeal(payer, receiver, payment));
   }
 
-  /*
-  //cjw MakeADeal
-  void MakeADeal(Software receiver, int payment, std::string publicInfo, std::string publicInfo, std::string secretInfo) 
+
+  //cjw CreatPay
+  void CreatPay(Software& receiver, int payment,const std::string& publicInfo,const std::string& secretInfo) 
   {
     if(m_money < payment)
     {
@@ -92,7 +92,7 @@ public:
 
     m_blockchain.AddBlock(m_dealmaker.MakeADeal(*this, receiver, payment, publicInfo, secretInfo));
   }
-  */
+  
   int GetMoney() const
   {
     return m_money;
@@ -142,9 +142,9 @@ public:
 
 private:
 
-  //bond a single user
+  //bond a single user with user's id
   bool isBond;
-  User* m_user;
+  int m_user;
   
   //software should communicate freely with each other, so I create a list
   //the original method is to create an observer
@@ -161,6 +161,9 @@ private:
   UserKey m_userKey;
 
   int m_money;
+
+  //count each round
+  int m_round;
   
 };
 #endif // !SOFTWARE_H

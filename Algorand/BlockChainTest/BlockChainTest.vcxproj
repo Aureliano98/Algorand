@@ -127,8 +127,10 @@
   <ItemGroup>
     <ClCompile Include="src\sha256_ckw\sha256.cc" />
     <ClCompile Include="src\Test_mc\Block.cpp" />
+    <ClCompile Include="src\Test_mc\Cloud.cpp" />
     <ClCompile Include="src\Test_mc\Software.cpp" />
     <ClCompile Include="src\Test_mc\main.cpp" />
+    <ClCompile Include="src\Test_mc\sortition.cpp" />
     <ClCompile Include="src\Test_mc\User.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -138,7 +140,10 @@
     <ClInclude Include="src\Test_mc\BlockChain.h" />
     <ClInclude Include="src\Test_mc\Cloud.h" />
     <ClInclude Include="src\Test_mc\DealMaker.h" />
+    <ClInclude Include="src\Test_mc\MRandom.h" />
+    <ClInclude Include="src\Test_mc\Signiture.h" />
     <ClInclude Include="src\Test_mc\Software.h" />
+    <ClInclude Include="src\Test_mc\sortition.h" />
     <ClInclude Include="src\Test_mc\Test.h" />
     <ClInclude Include="src\Test_mc\User.h" />
     <ClInclude Include="src\Test_mc\UserKey.h" />

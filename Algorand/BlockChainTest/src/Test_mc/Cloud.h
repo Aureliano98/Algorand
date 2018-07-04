@@ -6,25 +6,25 @@
 #ifndef CLOUD_H
 #define CLOUD_H
 #include <vector>
+#include <string>
 class Cloud
 {
 public:
-  Cloud* Instance()
+  static Cloud Instance()
   {
     return cloud;
   }
 
-  const std::vector<Class*>& GetPK() const
-  {
-    return PK;
-  }
+  //PK stores the public keys of the active users each turn
+  //It should be updated each turn
+  //std::vector <Class*> PK;
+  std::vector <std::string> PK;
+
 private:
   Cloud() {};
   Cloud(Cloud& copy) {};
-  Cloud* cloud;
+  static Cloud cloud;
 
-  //PK stores the public keys of the active users each turn
-  //It should be updated each turn
-  std::vector <Class*> PK;
+
 };
 #endif // !CLOUD_H
