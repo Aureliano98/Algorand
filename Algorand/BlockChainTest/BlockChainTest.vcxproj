@@ -126,12 +126,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\sha256_ckw\sha256.cc" />
-    <ClCompile Include="src\Test_mc\Block.cpp" />
-    <ClCompile Include="src\Test_mc\Cloud.cpp" />
-    <ClCompile Include="src\Test_mc\Software.cpp" />
     <ClCompile Include="src\Test_mc\main.cpp" />
     <ClCompile Include="src\Test_mc\sortition.cpp" />
-    <ClCompile Include="src\Test_mc\User.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\sha256_ckw\sha256.h" />

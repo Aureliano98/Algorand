@@ -1,26 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="src\Test_mc\Software.cpp">
-      <Filter>Test_mc\Software</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Test_mc\User.cpp">
-      <Filter>Test_mc\User</Filter>
-    </ClCompile>
     <ClCompile Include="src\sha256_ckw\sha256.cc">
       <Filter>sha256_ckw</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Test_mc\Block.cpp">
-      <Filter>Test_mc\Software</Filter>
     </ClCompile>
     <ClCompile Include="src\Test_mc\main.cpp">
       <Filter>Test_mc</Filter>
     </ClCompile>
     <ClCompile Include="src\Test_mc\sortition.cpp">
       <Filter>Test_mc\sortition_cjw</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Test_mc\Cloud.cpp">
-      <Filter>Test_mc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

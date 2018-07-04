@@ -121,4 +121,5 @@ public:
   //Use this to create a blank block
   const static std::string VoidMsg;
 };
+const std::string Block::VoidMsg = "";
 #endif // !BLOCK_H

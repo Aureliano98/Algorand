@@ -7,6 +7,7 @@
 #include "User.h"
 #include "Attacker.h"
 #include "MRandom.h"
+#include "Cloud.h"
 #include <boost/timer/timer.hpp>
 #include <vector>
 #include <time.h>
@@ -50,6 +51,8 @@ public:
   {
     c_Users.push_back(user);
     user->SetFirstBlock(firstblock);
+
+    Cloud::Instance().active.push_back(false);
   }
 
   //Add a bunch of users
@@ -58,13 +61,18 @@ public:
     int first = c_Users.size();
 
     for (int i = 0; i < number; ++i)
+    {
       c_Users.push_back(new User());
+      Cloud::Instance().active.push_back(false);
+    }
+      
 
     for (int i = first; i < c_Users.size(); ++i)
     {
       c_Users[i]->SetFirstBlock(firstblock);
     }
 
+    
   }
 
   /*
@@ -73,6 +81,7 @@ public:
   {
     c_Attackers.push_back(attacker);
     attacker->SetFirstBlock(firstblock);
+    Cloud::Instance().active.push_back(false);
   }
 
   //Add a bunch of Attackers
@@ -86,6 +95,7 @@ public:
     for (int i = first; i < c_Attackers.size(); ++i)
     {
       c_Attackers[i]->SetFirstBlock(firstblock);
+      Cloud::Instance().active.push_back(false);
     }
   }
   */
@@ -165,7 +175,7 @@ protected:
     }
 
     //userA wants to make a deal with userB
-    c_Users[userA]->CreatPay(c_Users[userB]->GetId(),std::to_string(m_runtime.elapsed().wall()),std::to_string(userA),MRandom::RandInt(1,c_Users[userA]->GetMoney()));
+    c_Users[userA]->CreatPay(c_Users[userB]->GetId(), MRandom::RandInt(1, c_Users[userA]->GetMoney()), std::to_string(userA),std::to_string(m_runtime.elapsed().wall));
   }
 
   //Add several deals
@@ -182,7 +192,7 @@ protected:
       {
         userB = MRandom::RandInt(0, c_Users.size());
       }
-      c_Users[userA]->MakeADeal(c_Users[userB]->GetId(), MRandom::RandInt(1, c_Users[userA]->GetMoney()));
+      c_Users[userA]->CreatPay(c_Users[userB]->GetId(), MRandom::RandInt(1, c_Users[userA]->GetMoney()), std::to_string(userA), std::to_string(m_runtime.elapsed().wall));
     }
   }
 
@@ -193,7 +203,7 @@ private:
 
   static int timestep;
 
-  boost::timer::cpu_timer m_runtime;
+  static boost::timer::cpu_timer m_runtime;
 
   //current Users
   std::vector<User*> c_Users;

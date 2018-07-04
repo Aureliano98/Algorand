@@ -33,9 +33,9 @@ public:
   };
   
   //To create a deal message and then ask for a creation of blocks
-  void CreatPay(int receiver,const std::string& pubInfo,const std::string& scrInfo,int payment) 
+  void CreatPay(int receiver, int payment, const std::string& pubInfo,const std::string& scrInfo)
   {
-    m_software.CreatPay(m_identifier, receiver, pubInfo, scrInfo, payment);
+    m_software.CreatPay(receiver, payment, pubInfo, scrInfo);
   };
 
   Type GetType() const
@@ -90,5 +90,6 @@ private:
   User(User&) {};
   User& operator = (const User& user) {};
 };
+int User::c_Id = 0;
 #endif // !USER_H
 

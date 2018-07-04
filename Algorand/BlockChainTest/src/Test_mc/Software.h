@@ -11,6 +11,7 @@
 #include "UserKey.h"
 #include "BlockChain.h"
 #include "DealMaker.h"
+#include "Cloud.h"
 #include <string>
 #include <vector>
 #include <fstream>
@@ -43,6 +44,7 @@ class Software
 public:
 
   friend Sortition;
+  friend DealMaker;
 
   Software() 
   {
@@ -74,23 +76,15 @@ public:
     m_blockchain.AddHead(copy);
   }
 
-  //Test only
-  void MakeADeal(int payer, int receiver, const std::string& publicInfo,const std::string& secretInfo,int payment)
-  {
-    m_blockchain.AddBlock(m_dealmaker.MakeADeal(payer, receiver, payment));
-  }
-
 
   //cjw CreatPay
-  void CreatPay(Software& receiver, int payment,const std::string& publicInfo,const std::string& secretInfo) 
+  void CreatPay(int receiver, int payment, const std::string& publicInfo,const std::string& secretInfo)
   {
-    if(m_money < payment)
-    {
-      std::cout << "No enough money!" << std::endl;
+    if (m_money < payment)
       return;
-    }
-
-    m_blockchain.AddBlock(m_dealmaker.MakeADeal(*this, receiver, payment, publicInfo, secretInfo));
+    
+    std::string 
+    
   }
   
   int GetMoney() const
@@ -141,15 +135,17 @@ public:
   }
 
 private:
-
-  //bond a single user with user's id
-  bool isBond;
-  int m_user;
-  
   //software should communicate freely with each other, so I create a list
   //the original method is to create an observer
   //this should do the same thing
   static std::vector<Software*> s_softwarelist;
+
+  //bond a single user with user's id
+  bool isBond;
+  int m_user;
+
+  //Storing all the payment the user make
+  std::vector<std::string> m_payments;
 
   BlockChain m_blockchain;
 
@@ -166,5 +162,6 @@ private:
   int m_round;
   
 };
+std::vector <Software*> Software::s_softwarelist;
 #endif // !SOFTWARE_H
 

@@ -20,11 +20,22 @@ public:
   //std::vector <Class*> PK;
   std::vector <std::string> PK;
 
+  std::vector <int> active;
+  
+  int activeN;
+
 private:
-  Cloud() {};
+  Cloud() 
+  {
+    activeN = 0;
+    active.clear();
+    PK.clear();
+  };
   Cloud(Cloud& copy) {};
   static Cloud cloud;
 
 
 };
+Cloud Cloud::cloud;
+
 #endif // !CLOUD_H
