@@ -46,45 +46,31 @@ public:
   friend Sortition;
   friend DealMaker;
 
-  Software() 
+  Software(int* n,int* t,UserData* data) :m_data(data),m_blockchain(),m_userKey(),m_dealmaker(n,t,&m_blockchain,&m_userKey,data)
   {
-    isBond = false;
-    m_user = NULL;
     m_money = 100;
+    m_round = 0;
     s_softwarelist.push_back(this);
   };
   
   ~Software()
   {
   }
-  //A software need to have a single user
-  void BondUser(int user) 
-  {
-    if (!isBond)
-    {
-      m_user = user;
-      isBond = true;
-    }
-    else
-      return;
-  };
-
-  //move from user class
+  
+  //Use for initialize
   void SetFirstBlock(Block* first)
   {
     Block* copy = new Block(*first);
     m_blockchain.AddHead(copy);
   }
 
-
-  //cjw CreatPay
-  void CreatPay(int receiver, int payment, const std::string& publicInfo,const std::string& secretInfo)
+  //cjw AddPay
+  void AddPay(int receiver, int payment, const std::string& publicInfo,const std::string& secretInfo)
   {
     if (m_money < payment)
       return;
     
-    std::string 
-    
+    m_dealmaker.m_payments.push_back(m_userKey.key[0].IntoBinaryS() + Cloud::Instance().PK[receiver].IntoBinaryS() + publicInfo + secretInfo);
   }
   
   int GetMoney() const
@@ -92,20 +78,6 @@ public:
     return m_money;
   }
 
-  //this should be read only but I don't know how to do it.
-  // LYL: I think this suffices.
-  //const Class& MyScrKey() const noexcept
-  //{
-  //  return m_userKey.scr_key;
-  //}
-
-  //this should be read only but I don't know how to do it.
-  // LYL: I think this suffices.
-  //const Class& MyPubKey() const noexcept
-  //{
-  //  return m_userKey.pub_key;
-  //}
-  
   void PrintBlockChain()
   {
     m_blockchain.ViewBlockChain();
@@ -114,6 +86,7 @@ public:
   void SaveBlockChain(std::ofstream& fout)
   {
     m_blockchain.PrintBlockChain(fout);
+    m_round++;
   }
   
   template<class T>
@@ -134,18 +107,23 @@ public:
     //???
   }
 
+  void Agreement()
+  {
+
+  }
+
+  void Verify()
+  {
+    m_dealmaker.Verify(m_round);
+  }
+
 private:
   //software should communicate freely with each other, so I create a list
   //the original method is to create an observer
   //this should do the same thing
   static std::vector<Software*> s_softwarelist;
-
-  //bond a single user with user's id
-  bool isBond;
-  int m_user;
-
-  //Storing all the payment the user make
-  std::vector<std::string> m_payments;
+  
+  UserData* m_data;
 
   BlockChain m_blockchain;
 

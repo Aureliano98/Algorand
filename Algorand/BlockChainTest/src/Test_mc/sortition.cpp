@@ -1,19 +1,25 @@
+#include "Cloud.h"
+#include "Signiture.h"
 #include "sortition.h"
+#include "DealMaker.h"
+
+#include <fstream>
 
 int Sortition::interval = 10000;
 
-Sortition::Sortition() {
-	N = Cloud::Instance().PK.size();
-	tH = 0.69 * Cloud::Instance().PK.size();
+Sortition::Sortition()
+{
+	N = Cloud::Instance().activeN;
+	tH = 0.69 * N;
 	k = 1;
 	p1 = 38.0 / N;
 	p = 1000.0 / N; //Not defined yet
 }
 
-bool Sortition::verifyPotential(Software* sw, int round, int step)
+bool Sortition::verifyPotential(UserKey* uk,BlockChain* bc, int round, int step)
 {
 	std::string credential = SIG(std::to_string(round) + std::to_string(1) +
-		sw->m_blockchain.GetTail()->seed);
+		bc->GetTail()->seed);
 	std::string hashCr = hashToBinaryString(sha256(credential));
 
 	double number = 0.0;
@@ -36,31 +42,32 @@ bool Sortition::verifyPotential(Software* sw, int round, int step)
 	return false;
 }
 
-void Sortition::generateMasterKey(Software* sw)
+void Sortition::generateMasterKey(UserKey* uk, BlockChain* bc, int userNumber)
 {
-	sw->m_userKey.GenerateKey(sw->m_userKey.PMK, sw->m_userKey.SMK);
+	uk->GenerateMasterKey();
 
 	//a pice of informing information
-	std::string publicInfo = SIG(sw->m_userKey.PMK + std::to_string(sw->m_blockchain.Length() + 1) +
-		std::to_string(sw->m_blockchain.Length() + 10001));
+	std::string publicInfo = SIG(std::to_string(userNumber) + std::to_string(bc->Length() + 1) +
+		std::to_string(bc->Length() + 10001));
 
 	//use this payment to let other users know the change of PMK
-	//sw->CreatPay(*sw, 0, publicInfo, "");
+	//use MakeADeal(uk->pub_key, uk->pub_key, 0, publicInfo, "") in DealMaker;
 
-	updateEphemeralKey(sw);
-
+	//updateEphemeralKey(uk, bc, userNumber);
 }
-
-void Sortition::updateEphemeralKey(Software* sw)
+/*
+void Sortition::updateEphemeralKey(UserKey* uk, BlockChain* bc, int userNumber)
 {
+	std::ofstream pkout("../key/pk/" + std::to_string(userNumber), std::ios::binary);
+	std::ofstream skout("../key/sk/" + std::to_string(userNumber), std::ios::binary);
+
 	//generate pk-r', s
 	for (int round = 0; round < 10000; ++round)
 	{
 		for (int step = 0; step < 12; ++step)
 		{
-			sw->m_userKey.pk[round][step] = sw->m_userKey.pub_key +
-				std::to_string(sw->m_blockchain.Length() + round) +
-				std::to_string(step);
+			 pkout << uk->pub_key + std::to_string(bc->Length() + round) +
+						std::to_string(step);
 		}
 	}
 
@@ -70,10 +77,15 @@ void Sortition::updateEphemeralKey(Software* sw)
 		for (int step = 0; step < 12; ++step)
 		{
 			//GenerateKey(sw->m_userKey[round][step], sw->m_userKey.SMK);
+			//skout << sk;
 		}
 	}
 
 	//destroy SMK
-	sw->m_userKey.SMK.assign("");
+	uk->SMK.assign("");
+
+	pkout.close();
+	skout.close();
 
 }
+*/

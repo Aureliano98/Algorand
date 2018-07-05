@@ -5,55 +5,64 @@
 
 #ifndef USERKEY_H
 #define USERKEY_H
-
+#include "Cloud.h"
 #include "MRandom.h"
+#include "../Signiture_qdl/SignatureBasedOnRSA.h"
 #include <string>
 #include <vector>
-
+#include <fstream>
+using namespace SignatureBasedOnRSA;
 class UserKey
 {
 public:
 
   UserKey()
   {
-    isCreated = false;
+    InitKey(fin);
+    GetKey(key[mod], key[pub], key[scr]);
+    Cloud::Instance().PK.push_back(key[pub]);
+    Cloud::Instance().PK.push_back(key[mod]);
   }
 
-  //You should determine what parameter do we need
-  void CreateUserKey()
+  ~UserKey()
   {
-    if (!isCreated)
-    {
-      Create(pub_key,scr_key);
-      isCreated = true;
-    }
-    else
-      return;
+    fin.close();
   }
 
-  void GenerateKey(std::string& pKey,std::string& sKey)
+  void GenerateMasterKey()
+  {
+    InitKey(fin);
+    GetKey(MK[mod], MK[pub], MK[scr]);
+  }
+  /*
+  void GenerateKey(BigInteger& pKey, BigInteger& sKey,BigInteger& Mod)
   {
     Create(pKey, sKey);
   }
-
+  */
   //two kind of keys
   //Class is a class qdl create to store the big number of keys
   //It is not finished yet
-  //Class pub_key, scr_key;
-  std::string pub_key, scr_key;
+  BigInteger key[3];
+  //std::string pub_key, scr_key;
 
   //You can change the name of these ephemeral keys
   //Class PMK, SMK;
   //std::vector <Class*> pk, sk;
 
+  BigInteger MK[3];
+  //std::string PMK, SMK;
+public:
   
-  std::string PMK, SMK;
+  static int pub, scr, mod;
+
+private:
+  
+  static std::ifstream fin;
 
 private:
 
-  //apply the key creation process here
-  void Create(...){};
-
+  /*
   //Test only
   void Create(std::string& pKey, std::string& sKey)
   {
@@ -65,10 +74,13 @@ private:
     pKey = std::to_string(p);
     sKey = std::to_string(s);
   }
-
-
-
-  bool isCreated;
+*/
+  //bool isCreated;
 };
+
+int UserKey::pub = 0;
+int UserKey::scr = 1;
+int UserKey::mod = 2;
+std::ifstream UserKey::fin("../key/primekey");
 #endif // !USERKEY_H
 

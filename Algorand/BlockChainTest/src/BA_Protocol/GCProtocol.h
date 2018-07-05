@@ -29,7 +29,7 @@ GCP(int _n, int _t):n(_n), t(_t)
     v = rand() % 2;
 }
 ~GCP(){}
-void generatePlayers();
+//void generatePlayers();
 std::vector<Player>& transferPlist(){return PList;}
 void sendMsg();
 void allCheck();
@@ -37,7 +37,7 @@ void calcVG();
 void output();
 void checkOutput();
 };
-
+/*
 void GCP::generatePlayers()
 {
     for (int i = 0; i < n - t; i ++)
@@ -47,11 +47,11 @@ void GCP::generatePlayers()
     }
     for (int i = 0; i < t; i ++)
     {
-        Player newPlayer(i, !v/*rand() % 2*/, n, t, false);
+        Player newPlayer(i, !v, n, t, false);
         PList.push_back(newPlayer);
     }
-    
 }
+*/
 void GCP::sendMsg()
 {
     if(PList.empty())

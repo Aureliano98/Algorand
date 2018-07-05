@@ -7,23 +7,32 @@
 #define CLOUD_H
 #include <vector>
 #include <string>
+#include "../Signiture_qdl/BigInteger.h"
 class Cloud
 {
 public:
-  static Cloud Instance()
+  static Cloud& Instance()
   {
     return cloud;
   }
 
+  void GetPK(int index,BigInteger& pk, BigInteger& pkmod)
+  {
+    if (active[index])
+    {
+      pk = PK[index];
+      pkmod = PKMOD[index];
+    }
+    else
+      return;
+  }
   //PK stores the public keys of the active users each turn
   //It should be updated each turn
-  //std::vector <Class*> PK;
-  std::vector <std::string> PK;
+  std::vector <BigInteger> PK,PKMOD;
 
   std::vector <int> active;
   
   int activeN;
-
 private:
   Cloud() 
   {
@@ -36,6 +45,5 @@ private:
 
 
 };
-Cloud Cloud::cloud;
 
 #endif // !CLOUD_H

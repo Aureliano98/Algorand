@@ -116,7 +116,7 @@ void SHA256::final(unsigned char *digest)
     }
 }
 //mc                  add reference
-uint256_t sha256(std::string& input) 
+uint256_t sha256(const std::string& input) 
 {
     unsigned char digest[SHA256::DIGEST_SIZE];
     memset(digest,0,SHA256::DIGEST_SIZE);

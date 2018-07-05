@@ -21,18 +21,23 @@ public:
     pre = NULL;
     next = NULL;
 
-    round = 0;
+    round = -1;
 
     m_savedata.clear();
 
     //This part need to be changed
     //I don't know how to set the first seed and hash
     srand(time(NULL));
-    char buffer[10];
-    sprintf_s(buffer, "%d", rand() % 10000000000);
+    char buffer[15];
+    sprintf_s(buffer, "%d", rand());
     std::string str = buffer;
     c_hash.clear();
-    c_hash.assign(hashToHexString(sha256(str)));
+    c_hash.assign(hashToBinaryString(sha256(str)));
+
+    sprintf_s(buffer, "%d", rand());
+    str = buffer;
+    seed.clear();
+    seed.assign(hashToBinaryString(sha256(str)));
   }
 
   //A block is based on the last one
@@ -52,7 +57,7 @@ public:
 
 	  std::string preString = std::to_string(Prev->round) + Prev->m_savedata + Prev->seed + Prev->c_hash;
       c_hash.clear();
-	  c_hash.assign(hashToHexString(sha256(preString)));
+	  c_hash.assign(hashToBinaryString(sha256(preString)));
   }
   
   //Test only
@@ -71,7 +76,7 @@ public:
     sprintf_s(buffer, "%d", rand() % 10000000000);
     std::string str = buffer;
     c_hash.clear();
-    c_hash.assign(hashToHexString(sha256(str)));
+    c_hash.assign(hashToBinaryString(sha256(str)));
   }
 
   ~Block() {};
@@ -81,6 +86,9 @@ public:
   {
     m_savedata = right.m_savedata;
     c_hash = right.c_hash;
+    pre = right.pre;
+    next = right.next;
+    seed = right.seed;
   };
 
 
@@ -90,6 +98,7 @@ public:
     next = copy.next;
     c_hash = copy.c_hash;
     m_savedata = copy.m_savedata;
+    seed = copy.seed;
   };
 
   //Block.h is only one component of BlockChain
@@ -102,6 +111,14 @@ public:
       return true;
     else
       return false;
+  }
+public:
+  //Because the block cannot be hashed
+  //so I change it to a string
+  std::string ToString()
+  {
+    std::string s = std::to_string(round) + m_savedata + seed + c_hash;
+    return s;
   }
 public:
 
@@ -121,5 +138,4 @@ public:
   //Use this to create a blank block
   const static std::string VoidMsg;
 };
-const std::string Block::VoidMsg = "";
 #endif // !BLOCK_H

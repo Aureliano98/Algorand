@@ -32,4 +32,5 @@ public:
 private:
   static boost::timer::cpu_timer m_runtime;
 };
+
 #endif //MRANDOM_H

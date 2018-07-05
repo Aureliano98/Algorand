@@ -1,24 +1,21 @@
 #ifndef SORTITION_H
 #define SORTITION_H
-#include "Software.h"
 #include "../sha256_ckw/sha256.h"
 #include "UserKey.h"
-#include "DealMaker.h"
-#include "Signiture.h"
-#include "Cloud.h"
+#include "BlockChain.h"
 
 class Sortition{
 public:
 	Sortition();
 
 	//Verify whether a user is a potential leader in step 1 / verifier in step > 1 
-	bool verifyPotential(Software* sw, int round, int step = 1);
+	bool verifyPotential(UserKey* uk,BlockChain* bc, int round, int step = 1);
 
-	void generateMasterKey(Software* sw);
-
+	void generateMasterKey(UserKey* uk, BlockChain* bc, int userNumber);
+  
 private:
 
-	void updateEphemeralKey(Software* sw);
+	void updateEphemeralKey(UserKey* uk, BlockChain* bc, int userNumber);
 
 	//All the active user in round r
 	int N;

@@ -8,39 +8,44 @@
 #define USER_H
 
 #include "Software.h"
+#include "UserData.h"
 #include <string>
 #include <time.h>
 #include <fstream>
 class Test;
-class Attacker;
+//class Attacker;
 class User
 {
 public:
-  friend class Attacker;
+  //friend class Attacker;
   friend class Test;
-  User()
+  User(int* n1,int* t1):m_data(),m_software(n,t,&m_data)
   {
-    m_identifier = c_Id++;
-    m_type = Honest;
-    m_software.BondUser(m_identifier);
+    n = n1;
+    t = t1;
   }
 
-  enum Type
-  {
-    Honest,
-    Adverse,
-    Attack
-  };
-  
   //To create a deal message and then ask for a creation of blocks
   void CreatPay(int receiver, int payment, const std::string& pubInfo,const std::string& scrInfo)
   {
-    m_software.CreatPay(receiver, payment, pubInfo, scrInfo);
+    if (!Cloud::Instance().active[m_data.c_Id])
+    {
+      Cloud::Instance().activeN++;
+      Cloud::Instance().active[m_data.c_Id] = true;
+    } 
+    
+    if (!Cloud::Instance().active[receiver])
+    {
+      Cloud::Instance().activeN++;
+      Cloud::Instance().active[receiver] = true;
+    }
+
+    m_software.AddPay(receiver, payment, pubInfo, scrInfo);
   };
 
-  Type GetType() const
+  UserData::Type GetType() const
   {
-    return m_type;
+    return m_data.m_type;
   }
 
   int GetMoney() const
@@ -50,7 +55,7 @@ public:
   
   int GetId() const
   {
-    return m_identifier;
+    return m_data.m_identifier;
   }
   
   void PrintBlockChain()
@@ -61,7 +66,7 @@ public:
   void SaveBlockChain()
   {
     char buffer[25];
-    sprintf_s(buffer, "data//AUser%d.txt", m_identifier);
+    sprintf_s(buffer, "data//%d", m_data.m_identifier);
     std::ofstream fout(buffer);
     m_software.SaveBlockChain(fout);
   }
@@ -73,23 +78,15 @@ protected:
   {
     m_software.SetFirstBlock(first);
   }
-  //use the number of users to give identifier
-  //c_Id shows how many users have been created
-  static int c_Id;
 
-  //to identify the users
-  int m_identifier;
-  
-  Type m_type;
- 
 private:
-
+  int *n, *t;
   // software holds all the datas and measures
   Software m_software;
- 
-  User(User&) {};
+  UserData m_data;
+  User(User&) :m_software(NULL,NULL,NULL){};
   User& operator = (const User& user) {};
 };
-int User::c_Id = 0;
+
 #endif // !USER_H
 

@@ -13,6 +13,7 @@
 #include <time.h>
 #include <algorithm>
 #include <cstring>
+#include <string>
 
 class Player
 {

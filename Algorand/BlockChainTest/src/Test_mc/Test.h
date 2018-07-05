@@ -5,9 +5,10 @@
 #ifndef TEST_H
 #define TEST_H
 #include "User.h"
-#include "Attacker.h"
+//#include "Attacker.h"
 #include "MRandom.h"
 #include "Cloud.h"
+#include "../BA_Protocol/BBAProtocol.h"
 #include <boost/timer/timer.hpp>
 #include <vector>
 #include <time.h>
@@ -17,12 +18,13 @@ public:
   Test() 
   {
     c_Users.clear();
-    c_Attackers.clear();
+    //c_Attackers.clear();
 
     firstblock = new Block();
 
     m_runtime.start();
     
+    n = 0; t = 0;
   };
 
   ~Test()
@@ -33,14 +35,14 @@ public:
       delete c_Users.back();
      c_Users.pop_back();
    }
-
+   /*
    while (c_Attackers.size() != 0)
    {
      if(c_Attackers.back() != NULL)
       delete c_Attackers.back();
      c_Attackers.pop_back();
    }
-
+    */
    m_runtime.stop();
 
    delete firstblock;
@@ -49,6 +51,7 @@ public:
   //Add a specific user
   void AddUser(User* user)
   {
+    n++;
     c_Users.push_back(user);
     user->SetFirstBlock(firstblock);
 
@@ -58,20 +61,20 @@ public:
   //Add a bunch of users
   void AddUsers(int number)
   {
+    n += number;
     int first = c_Users.size();
 
     for (int i = 0; i < number; ++i)
     {
-      c_Users.push_back(new User());
+      c_Users.push_back(new User(&n,&t));
       Cloud::Instance().active.push_back(false);
     }
       
 
     for (int i = first; i < c_Users.size(); ++i)
     {
-      c_Users[i]->SetFirstBlock(firstblock);
+      c_Users[i]->m_software.SetFirstBlock(firstblock);
     }
-
     
   }
 
@@ -79,6 +82,7 @@ public:
   //Add a specific Attacker
   void AddAttacker(Attacker* attacker)
   {
+    t += 1;
     c_Attackers.push_back(attacker);
     attacker->SetFirstBlock(firstblock);
     Cloud::Instance().active.push_back(false);
@@ -87,6 +91,7 @@ public:
   //Add a bunch of Attackers
   void AddAttackers(int number)
   {
+    t += number;
     int first = c_Attackers.size();
 
     for (int i = 0; i < number; ++i)
@@ -107,7 +112,7 @@ public:
     else
       return c_Users[index];
   }
-
+/*
   Attacker* GetAttacker(int index)
   {
     if (index >= c_Attackers.size() || index < 0)
@@ -115,7 +120,7 @@ public:
     else
       return c_Attackers[index];
   }
-
+*/
   //Test only
   void PrintAllBlocks()
   {
@@ -130,23 +135,21 @@ public:
   void Step()
   {
     timestep++;
-
     //Add new users with possibility 1%
-    if (MRandom::RandBool(10))
-    {
-      AddUsers(1);
-    }
+    //if (MRandom::RandBool(10))
+    //{
+    //  AddUsers(1);
+    //}
       
-
     //Then deals will occur
     int num = MRandom::RandInt(0, c_Users.size()/2);
     AddPays(num);
     
+    MakeSortition();
+    
     //Then we get to an agreement
-    //Agreement();
     //A new block should have been added into chain here
-    //???();
-    //
+    Agreement();
 
     //Save the blocks into .txt files to imitate the saving progress
     SaveData();
@@ -196,7 +199,18 @@ protected:
     }
   }
 
-  
+  void MakeSortition()
+  {
+    for (int i = 0; i < c_Users.size(); ++i)
+      c_Users[i]->m_software.Verify();
+
+  }
+
+  void Agreement()
+  {
+    DealMaker::Agreement();
+  }
+ 
 private:
   void operator = (Test&) {};
   Test(Test&) {};
@@ -208,9 +222,12 @@ private:
   //current Users
   std::vector<User*> c_Users;
   //current Attackers
-  std::vector<Attacker*> c_Attackers;
+  //std::vector<Attacker*> c_Attackers;
+
+  int n, t;
 
   Block* firstblock;
 };
 int Test::timestep = 0;
+boost::timer::cpu_timer Test::m_runtime; 
 #endif //!TEST_H

@@ -33,7 +33,7 @@ protected:
     uint32 m_h[8];
 };
 //mc                   add reference
-uint256_t sha256(std::string& input);
+uint256_t sha256(const std::string& input);
 std::string hashToHexString(uint256_t);
 std::string hashToBinaryString(uint256_t);
 
