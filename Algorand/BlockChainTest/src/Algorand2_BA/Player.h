@@ -17,12 +17,13 @@
 struct MSG
 {
     std::string ecrpt, orig, orig2;
-    BigInteger E, N;
+    //BigInteger E, N;
     bool operator == (MSG& right)
     {
         return ecrpt.compare(right.ecrpt) == 0;
     }
-    Block* block;
+    //Block* block;
+
 };
 
 class Player : public User
@@ -54,9 +55,13 @@ Player(int _ID, bool _aff = true) :User(),ID(m_data.m_identifier)
 void findV(std::vector<Player> &PList, int _t);
 std::pair <std::string, int> getPair(){return VGPair;}
 std::pair <int, int> count01();
+//std::pair <int, int> count01();
 
 bool isHonest(){return aff;}
+MSG& seeBlock() {return proposeBlock;}
 
+void setProp(MSG prop){proposeBlock = prop;}
+void propose(std::vector<Player> &PList, int leader);
 void msg(std::vector<Player> &PList);
 void check();
 void outDet();
@@ -98,6 +103,21 @@ void corrupt()
 }
 
 };
+
+void Player::propose(std::vector<Player> &PList, int leader)
+{
+    if (ID == leader)
+    {
+        MSG newBlock;
+        //newBlock.block = 
+        //SIG(new block info)
+        
+        for (int i = 0; i < PList.size(); i ++)
+        {
+            PList[i].setProp(newBlock);
+        }
+    }
+}
 
 void Player::findV(std::vector<Player> &PList, int _t)
 {
@@ -203,7 +223,7 @@ void Player::outDet()
 
     MSG newMSG;
     //newMSG.encrpt = v; // turn v into a message using j
-    newMSG.orig = b;
+    newMSG.orig = std::to_string(b);
     newMSG.orig2 = v;
     message = newMSG;
 
@@ -212,17 +232,130 @@ void Player::outDet()
     return;
 }
 
-// void Player::coin0()
-// {
-//     std::pair <int, int> count = count01();
-//     int count2 = 0;
-//     for (int i = 0; i < n; i ++)
-//     {
-//         if(i != ID)
-//         {
-//             if(recieved[i] == ESIG)count2++;
-//         }
-//     }
-// }
+Block* Player::coin0()
+{
+    int count0 = 0, count1 = 0;
+    for (int i = 0; i < n; i ++)
+    {
+        if(i != ID)
+        {
+            if(recieved[i].orig2 == ESIGi.orig2 && ESIGi.orig.compare("0") == 0)count0++;
+            if(recieved[i].orig2 == ESIGi.orig2 && ESIGi.orig.compare("1") == 0)count1++;
 
+        }
+    }
+    if(count0 > (t * 2 / 3) + 1)
+    {
+        std::string HB;
+        for (int i = 0; i < n; i ++)
+        {
+            //if(ESIGi.orig2.compare(hashtostring(PList[i].seeBlock().orig)) == 0)
+            {
+                //Set block to PList[i].seeBlock().block;
+                //return;
+            }
+        }
+        b = 0;
+    }
+    else if (count1 > (t * 2 / 3) + 1)
+    {
+        b = 1;
+    }
+    else b = 0;
+    
+    
+
+
+    MSG newMSG;
+    //newMSG.encrpt = v; // turn v into a message using j
+    newMSG.orig = std::to_string(b);
+    newMSG.orig2 = v;
+    message = newMSG;
+
+    ESIGi = newMSG;
+
+    return NULL;
+}
+Block* Player::coin1()
+{
+    int count0 = 0, count1 = 0;
+    for (int i = 0; i < n; i ++)
+    {
+        if(i != ID)
+        {
+            if(recieved[i].orig2 == ESIGi.orig2 && ESIGi.orig.compare("0") == 0)count0++;
+            if(recieved[i].orig2 == ESIGi.orig2 && ESIGi.orig.compare("1") == 0)count1++;
+
+        }
+    }
+    if(count1 > (t * 2 / 3) + 1)
+    {
+        std::string HB;
+        for (int i = 0; i < n; i ++)
+        {
+            //if(ESIGi.orig2.compare(hashtostring(PList[i].seeBlock().orig)) == 0)
+            {
+                //Set block to PList[i].seeBlock().block;
+                //return this block
+            }
+        }
+        b = 1;
+    }
+    else if (count0 > (t * 2 / 3) + 1)
+    {
+        b = 0;
+    }
+    else b = 1;
+    
+    
+
+
+    MSG newMSG;
+    //newMSG.encrpt = v; // turn v into a message using j
+    newMSG.orig = std::to_string(b);
+    newMSG.orig2 = v;
+    message = newMSG;
+
+    ESIGi = newMSG;
+
+    return NULL;
+}
+void Player::coinFlip()
+{
+    int count0 = 0, count1 = 0;
+    for (int i = 0; i < n; i ++)
+    {
+        if(i != ID)
+        {
+            if(recieved[i].orig2 == ESIGi.orig2 && ESIGi.orig.compare("0") == 0)count0++;
+            if(recieved[i].orig2 == ESIGi.orig2 && ESIGi.orig.compare("1") == 0)count1++;
+
+        }
+    }
+    if((count0 > (t * 2 / 3) + 1) || (count1 > (t * 2 / 3) + 1))
+    {
+        std::string HB;
+        for (int i = 0; i < n; i ++)
+        {
+            //if(ESIGi.orig2.compare(hashtostring(PList[i].seeBlock().orig)) == 0)
+            {
+                //Set block to PList[i].seeBlock().block;
+                //return Block^
+            }
+        }
+    }
+    if (count0 > (t * 2 / 3) + 1)
+    {
+        b = 0;
+    }
+    else if (count1 > (t * 2 / 3) + 1)
+    {
+        b = 1;
+    }
+    else
+    {
+        //b = lsb...
+    }
+    return NULL;
+}
 #endif
