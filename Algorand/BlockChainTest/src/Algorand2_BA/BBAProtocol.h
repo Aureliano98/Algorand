@@ -18,7 +18,7 @@ class BBAP
 {
 private:
 int n, t = 0;
-std::vector<Player> PList;
+std::vector<Player> &PList;
 GCP gc;
 
 public:
@@ -31,14 +31,39 @@ void corruptPlayers(int _t)
     t = _t;
     gc.playerCorrupt(_t);
 }
+void updatePList(std::vector<Player> &_PList, int _t)
+{
+    PList = _PList;
+    t = _t;
+    gc.update(_PList, _t);
+}
 
 void calcBBAP();
-void getInitVal();
-void step1();
-void step2();
-void step3();
-int outVal();
-void checkOutput();
+void step2(std::vector<Player> _PList, int _t)
+{
+    updatePList(_PList, _t);
+    gc.calcInitV();
+    gc.sendMsg();
+}
+void step3(std::vector<Player> _PList, int _t)
+{
+    updatePList(_PList, _t);
+    //std::cout << "update\n";
+    gc.allCheck();
+    //std::cout << "check\n";
+    gc.sendMsg();
+    //std::cout << "sent\n";
+}
+void step4(std::vector<Player> _PList, int _t)
+{
+    updatePList(_PList, _t);
+    gc.output();
+    gc.sendMsg(1);
+}
+void checkOutput()
+{
+    gc.checkOutput();
+}
 };
 
 void BBAP::calcBBAP()
@@ -113,12 +138,6 @@ void BBAP::calcBBAP()
 //     return PList[0].out();
 // }
 
-// void BBAP::checkOutput() //output determination
-// {
-//     for(int i = 0; i < PList.size(); i ++)
-//     {
-//         PList[i].printMsg();
-//     }
-// }
+
 #endif
 
