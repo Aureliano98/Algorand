@@ -42,7 +42,7 @@ void calcInitV();
 
 void generatePlayers();
 std::vector<Player>& transferPlist(){return PList;}
-void sendMsg(int var = 0);
+void sendMsg();
 void allCheck();
 void calcVG();
 void output();
@@ -72,7 +72,7 @@ void GCP::calcInitV()
     }
     return;
 }
-void GCP::sendMsg(int var)
+void GCP::sendMsg()
 {
     //std::cout << "send\n";
     for(int i = 0; i < n; i ++)
@@ -81,7 +81,7 @@ void GCP::sendMsg(int var)
     }
     for(int i = 0; i < n; i ++)
     {
-        PList[i].msg(PList, var);
+        PList[i].msg(PList);
     }
 }
 void GCP::allCheck()
