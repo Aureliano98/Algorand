@@ -133,7 +133,6 @@
     <ClCompile Include="src\Test_mc\Cloud.cpp" />
     <ClCompile Include="src\Test_mc\main.cpp" />
     <ClCompile Include="src\Test_mc\MRandom.cpp" />
-    <ClCompile Include="src\Test_mc\sortition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BA_Protocol\BBAProtocol.h" />
@@ -146,7 +145,6 @@
     <ClInclude Include="src\Test_mc\Block.h" />
     <ClInclude Include="src\Test_mc\BlockChain.h" />
     <ClInclude Include="src\Test_mc\Cloud.h" />
-    <ClInclude Include="src\Test_mc\DealMaker.h" />
     <ClInclude Include="src\Test_mc\MRandom.h" />
     <ClInclude Include="src\Test_mc\Signiture.h" />
     <ClInclude Include="src\Test_mc\Software.h" />

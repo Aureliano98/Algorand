@@ -17,7 +17,7 @@ class BBAP
 {
 private:
 int n, t = 0;
-std::vector<Player> PList;
+std::vector<Player> &PList;
 GCP gc;
 
 public:

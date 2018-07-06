@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+using namespace std;
 class UserKey : protected SignatureBasedOnRSA
 {
 public:
@@ -26,8 +27,8 @@ public:
 
   UserKey():SignatureBasedOnRSA(fin)
   {
-    Cloud::Instance().PK.push_back(rsa.E);
-    Cloud::Instance().PKMOD.push_back(rsa.N);
+    Cloud::Instance().PK.push_back(&rsa.E);
+    Cloud::Instance().PKMOD.push_back(&rsa.N);
   }
 
   ~UserKey()

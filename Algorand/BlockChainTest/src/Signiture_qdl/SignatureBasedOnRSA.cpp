@@ -49,3 +49,5 @@ BigInteger Signature::DecryptWith( const BigInteger& c, const BigInteger& N, con
 	val = ModPow( c, E, N );
 	return val;
 }
+
+RSA Signature::rsa;

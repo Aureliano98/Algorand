@@ -20,7 +20,7 @@ public:
   BigInteger& Pk(int index)
   {
     if (active[index])
-      return PK[index];
+      return *PK[index];
     else
       assert(0);
   }
@@ -28,7 +28,7 @@ public:
   BigInteger& PkMod(int index)
   {
     if (active[index])
-      return PKMOD[index];
+      return *PKMOD[index];
     else
       assert(0);
   }
@@ -41,7 +41,7 @@ public:
 
   //PK stores the public keys of the active users each turn
   //It should be updated each turn
-  std::vector <BigInteger&> PK, PKMOD;
+  std::vector <BigInteger*> PK, PKMOD;
 
   std::vector <int> active;
 

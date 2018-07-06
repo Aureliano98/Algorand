@@ -21,7 +21,7 @@ class GCP
 {
 private:
 int n, t = 0;
-std::vector<Player> PList;
+std::vector<Player> &PList;
 
 public:
 GCP(std::vector<Player> &_PList):PList(_PList), n(_PList.size())
@@ -34,7 +34,7 @@ void playerCorrupt(int _t);
 void calcInitV();
 
 
-void generatePlayers();
+//void generatePlayers();
 std::vector<Player>& transferPlist(){return PList;}
 void sendMsg();
 void allCheck();

@@ -10,13 +10,13 @@
 #include "UserKey.h"
 #include "BlockChain.h"
 #include "Signiture.h"
+#include "UserData.h"
 //#include "DealMaker.h"
 #include "Cloud.h"
 #include <string>
 #include <vector>
 #include <fstream>
 
-class Sortition;
 /*
 //MSG is a structure which stores a kind of msg and count the times you get it
 template<class T>
@@ -39,20 +39,24 @@ struct MSG
 };
 */
 
+class Sortition;
+class Test;
+
 class Software
 {
 
 public:
 
+  friend Test;
   friend Sortition;
-  friend DealMaker;
+  //friend DealMaker;
 
   Software(int* n,int* t,UserData* data) :m_data(data),m_blockchain(),m_userKey()
   {
     m_money = 100;
     m_round = 0;
     s_softwarelist.push_back(this);
-  };
+  }
   
   ~Software()
   {
@@ -113,9 +117,9 @@ private:
   std::string Payment(const int from, const int to, int money,
     const std::string& publicInfo, const std::string& secretInfo)
   {
-    return m_userKey.Sign(hashToBinaryString(sha256(Cloud::Instance().PK[from].IntoBinaryS() + Cloud::Instance().PK[to].IntoBinaryS() + std::to_string(money) +
+    return m_userKey.Sign(hashToBinaryString(sha256(Cloud::Instance().PK[from]->IntoBinaryS() + Cloud::Instance().PK[to]->IntoBinaryS() + std::to_string(money) +
       publicInfo + hashToBinaryString(sha256(secretInfo))))).IntoBinaryS();
-  };
+  }
 
   //software should communicate freely with each other, so I create a list
   //the original method is to create an observer

@@ -6,6 +6,7 @@
 #define TEST_H
 #include "User.h"
 //#include "Attacker.h"
+#include "sortition.h"
 #include "MRandom.h"
 #include "Cloud.h"
 #include "../BA_Protocol/BBAProtocol.h"
@@ -25,6 +26,7 @@ public:
     m_runtime.start();
     
     n = 0; t = 0;
+    m = 180;
   };
 
   ~Test()
@@ -150,11 +152,12 @@ public:
     int num = MRandom::RandInt(0, c_Users.size()/2);
     AddPays(num);
     
-    MakeSortition();
-    
+    Main();
+    //MakeSortition();
+
     //Then we get to an agreement
     //A new block should have been added into chain here
-    Agreement();
+    //Agreement();
 
     //Save the blocks into .txt files to imitate the saving progress
     SaveData();
@@ -204,54 +207,26 @@ protected:
     }
   }
 
-  void MakeSortition()
+  void Main()
   {
-    for (int i = 0; i < c_Users.size(); ++i)
-      c_Users[i]->m_software.Verify();
-
-  }
-
-  void Agreement(int r)
-  {
-    for (int s = 0; s != max_rounds; ++s) {
+    for (int s = 0; s <= m; ++s) {
       //active_public_keys.clear();
-      verifiers.clear();
-
+      PList.clear();
+      int leader;
       // Each user gets his SIG_i
-      for (int i = 0; i != num_users; ++i) {
-        credentials[i] = get_credential(i, messages[i], priv_keys[i]);
-      }
-
-      // Select $(leader)
-      int leader = min_element(credentials.cbegin(), credentials.cend()) - credentials.cbegin();
-
-      // Select $(verifiers)
-      for (int i = 0; i = credentials.size(); ++i) {
-        binary_string str = to_binary_string(credentials[i]);
-        auto value = to_double(cbegin(str), cend(str));
-        auto x = random(eng);
-        if (value <= x)
-          verifiers.push_back(i);
+      for (int i = 0; i < n; ++i) {
+        //verify players
+        m_sortition.verifyVerifier(c_Users[i], PList, timestep, s);
+        //add credentials
+        credentials[i] = m_sortition.getCredential(c_Users[i],timestep,s);
+        // Select $(leader)
+        leader = m_sortition.verifyLeader(c_Users[i], timestep, i == n - 1 ? true : false);
       }
 
       bool is_new_block_empty = false;
       // The leader constructs a new block, then runs BA
       // is_new_block_empty should be set finally
-
-
-      // Update seed
-      if (!is_new_block_empty) {
-        // Note: the pseudocode on https://www.jianshu.com/p/900374cd7eab
-        // is not consistent with the paper (p.30). Below complies with
-        // the paper.
-        auto bin_str = to_binary_string(big_sig(leader, seed));
-        auto str = to_binary_string(to_string(r));
-        copy(begin(str), end(str), back_inserter(bin_str));
-        seed = hash_value(bin_str);
-      }
-      else {
-        seed = hash_value(seed.str() + to_string(r));
-      }
+      
     }
   }
  
@@ -268,7 +243,14 @@ private:
   //current Attackers
   //std::vector<Attacker*> c_Attackers;
 
+  std::vector<Player> PList;
+  std::vector<std::string> credentials;
+  
+  Sortition m_sortition;
+
   int n, t;
+
+  int m;
 
   Block* firstblock;
 };
