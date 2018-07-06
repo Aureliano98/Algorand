@@ -138,7 +138,8 @@ public:
   
   void Step()
   {
-    timestep++;
+    timestep++;//round
+
     //Add new users with possibility 1%
     //if (MRandom::RandBool(10))
     //{
@@ -210,9 +211,48 @@ protected:
 
   }
 
-  void Agreement()
+  void Agreement(int r)
   {
-    DealMaker::Agreement();
+    for (int s = 0; s != max_rounds; ++s) {
+      //active_public_keys.clear();
+      verifiers.clear();
+
+      // Each user gets his SIG_i
+      for (int i = 0; i != num_users; ++i) {
+        credentials[i] = get_credential(i, messages[i], priv_keys[i]);
+      }
+
+      // Select $(leader)
+      int leader = min_element(credentials.cbegin(), credentials.cend()) - credentials.cbegin();
+
+      // Select $(verifiers)
+      for (int i = 0; i = credentials.size(); ++i) {
+        binary_string str = to_binary_string(credentials[i]);
+        auto value = to_double(cbegin(str), cend(str));
+        auto x = random(eng);
+        if (value <= x)
+          verifiers.push_back(i);
+      }
+
+      bool is_new_block_empty = false;
+      // The leader constructs a new block, then runs BA
+      // is_new_block_empty should be set finally
+
+
+      // Update seed
+      if (!is_new_block_empty) {
+        // Note: the pseudocode on https://www.jianshu.com/p/900374cd7eab
+        // is not consistent with the paper (p.30). Below complies with
+        // the paper.
+        auto bin_str = to_binary_string(big_sig(leader, seed));
+        auto str = to_binary_string(to_string(r));
+        copy(begin(str), end(str), back_inserter(bin_str));
+        seed = hash_value(bin_str);
+      }
+      else {
+        seed = hash_value(seed.str() + to_string(r));
+      }
+    }
   }
  
 private:

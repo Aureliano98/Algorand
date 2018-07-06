@@ -3,6 +3,7 @@
 //machuan 2018.6.29 create
 /* This class should do all the works about how to make a deal */
 /* Including */
+/*
 #ifndef DEALMAKER_H
 #define DEALMAKER_H
 #include "Block.h"
@@ -27,6 +28,7 @@ public:
     m_blockchain = chain;
     m_userKey = key;
   }
+
   //Test only
   Block* MakeADeal(...) 
   {
@@ -44,27 +46,19 @@ public:
 					publicInfo + hashToBinaryString(sha256(secretInfo))))).IntoBinaryS();
 	};
 
-  static void Agreement() {};
-  void Verify(int round)
-  {
-    r = round;
-    if (m_sortition.verifyPotential(m_userKey, m_blockchain, r, s))
-      PList.push_back(new Player(m_data->m_identifier, *n, *t, m_data->m_type == m_data->Honest ? true : false));
-  }
-
   //Storing all the payment the user make
-  std::vector<std::string> m_payments;
+  
 
+  static std::vector<Player*> PList; 
 private:
   //round and step
   int r, s;
   int *n, *t;
-  std::vector<Player*> PList;
-  Sortition m_sortition;
+
   UserData* m_data;
   BlockChain* m_blockchain;
   UserKey* m_userKey;
 };
 
 #endif // !DEALMAKER_H
-
+*/

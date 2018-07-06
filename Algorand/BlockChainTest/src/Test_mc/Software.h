@@ -7,17 +7,17 @@
 #ifndef SOFTWARE_H
 #define SOFTWARE_H
 
-#include "sortition.h"
 #include "UserKey.h"
 #include "BlockChain.h"
-#include "DealMaker.h"
+#include "Signiture.h"
+//#include "DealMaker.h"
 #include "Cloud.h"
 #include <string>
 #include <vector>
 #include <fstream>
 
 class Sortition;
-
+/*
 //MSG is a structure which stores a kind of msg and count the times you get it
 template<class T>
 struct MSG
@@ -37,6 +37,7 @@ struct MSG
     return (*this == right);
   }
 };
+*/
 
 class Software
 {
@@ -46,7 +47,7 @@ public:
   friend Sortition;
   friend DealMaker;
 
-  Software(int* n,int* t,UserData* data) :m_data(data),m_blockchain(),m_userKey(),m_dealmaker(n,t,&m_blockchain,&m_userKey,data)
+  Software(int* n,int* t,UserData* data) :m_data(data),m_blockchain(),m_userKey()
   {
     m_money = 100;
     m_round = 0;
@@ -70,7 +71,7 @@ public:
     if (m_money < payment)
       return;
     
-    m_dealmaker.m_payments.push_back(m_dealmaker.Payment(m_data->m_identifier,receiver,payment,publicInfo,secretInfo));
+    m_payments.push_back(Payment(m_data->m_identifier,receiver,payment,publicInfo,secretInfo));
   }
   
   int GetMoney() const
@@ -89,12 +90,12 @@ public:
     m_round++;
   }
   
+  /*
   template<class T>
   void SendMSG(MSG<T>& msg, int identifier) const
   {
     s_softwarelist[identifier]->GetMSG(msg);
   }
-
   //???
   void GetMSG(MSG<Block*>& msg) const
   {
@@ -106,29 +107,29 @@ public:
   {
     //???
   }
-
-  void Agreement()
-  {
-
-  }
-
-  void Verify()
-  {
-    m_dealmaker.Verify(m_round);
-  }
-
+  */
 private:
+
+  std::string Payment(const int from, const int to, int money,
+    const std::string& publicInfo, const std::string& secretInfo)
+  {
+    return m_userKey.Sign(hashToBinaryString(sha256(Cloud::Instance().PK[from].IntoBinaryS() + Cloud::Instance().PK[to].IntoBinaryS() + std::to_string(money) +
+      publicInfo + hashToBinaryString(sha256(secretInfo))))).IntoBinaryS();
+  };
+
   //software should communicate freely with each other, so I create a list
   //the original method is to create an observer
   //this should do the same thing
   static std::vector<Software*> s_softwarelist;
   
+  std::vector<std::string> m_payments;
+
   UserData* m_data;
 
   BlockChain m_blockchain;
 
   //the Dealmaker should try to make deal and create a new block
-  DealMaker m_dealmaker;
+  //DealMaker m_dealmaker;
 
   // The class includes both the private and the public keys and the functions
   //to create them

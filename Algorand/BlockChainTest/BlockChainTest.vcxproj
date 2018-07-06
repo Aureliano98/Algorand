@@ -125,7 +125,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\selection_lyl\selection.cpp" />
     <ClCompile Include="src\sha256_ckw\sha256.cc" />
     <ClCompile Include="src\Signiture_qdl\BigInteger.cpp" />
     <ClCompile Include="src\Signiture_qdl\RSA.cpp" />
@@ -140,7 +139,6 @@
     <ClInclude Include="src\BA_Protocol\BBAProtocol.h" />
     <ClInclude Include="src\BA_Protocol\GCProtocol.h" />
     <ClInclude Include="src\BA_Protocol\Player.h" />
-    <ClInclude Include="src\selection_lyl\xalgorand.h" />
     <ClInclude Include="src\sha256_ckw\sha256.h" />
     <ClInclude Include="src\Signiture_qdl\BigInteger.h" />
     <ClInclude Include="src\Signiture_qdl\RSA.h" />

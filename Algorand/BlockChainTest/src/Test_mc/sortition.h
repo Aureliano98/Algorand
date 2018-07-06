@@ -10,10 +10,8 @@ public:
 
 	//Verify whether a user is a potential leader in step 1 / verifier in step > 1 
 	bool verifyPotential(UserKey* uk,BlockChain* bc, int round, int step = 1);
-
-	void generateMasterKey(UserKey* uk, BlockChain* bc, int userNumber);
   
-private:
+
 
 	//void updateEphemeralKey(UserKey* uk, BlockChain* bc, int userNumber);
 
@@ -25,7 +23,7 @@ private:
 
 	//Look-back parameter
 	int k;
-
+private:
 	//Possibility of a user being a potential leader in step 1
 	double p1;
 

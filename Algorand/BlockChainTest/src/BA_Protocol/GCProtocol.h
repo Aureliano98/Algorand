@@ -13,57 +13,66 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+
 #include "Player.h"
 
 
 class GCP
 {
 private:
-int v, n, t;
+int n, t = 0;
 std::vector<Player> PList;
 
 public:
-GCP(int _n, int _t):n(_n), t(_t)
+GCP(std::vector<Player> &_PList):PList(_PList), n(_PList.size())
 {
     srand(time(NULL));
-    v = rand() % 2;
 }
 ~GCP(){}
-//void generatePlayers();
+
+void playerCorrupt(int _t);
+void calcInitV();
+
+
+void generatePlayers();
 std::vector<Player>& transferPlist(){return PList;}
 void sendMsg();
 void allCheck();
 void calcVG();
 void output();
-void checkOutput();
+void checkOutput(int c = 0);
 };
-/*
-void GCP::generatePlayers()
+
+void GCP::playerCorrupt(int _t)
 {
-    for (int i = 0; i < n - t; i ++)
+    t = _t;
+    int count = 0, target;
+    while (count < t)
     {
-        Player newPlayer(i, v, n, t);
-        PList.push_back(newPlayer);
-    }
-    for (int i = 0; i < t; i ++)
-    {
-        Player newPlayer(i, !v, n, t, false);
-        PList.push_back(newPlayer);
+        target = rand() % n;
+        if(PList[target].isHonest())
+        {
+            PList[target].corrupt();
+            count ++;
+        }
     }
 }
-*/
+
+void GCP::calcInitV()
+{
+    for(int i = 0; i < n; i ++)
+    {
+        PList[i].findV(PList, t);
+    }
+    return;
+}
 void GCP::sendMsg()
 {
-    if(PList.empty())
-    {
-        std::cout << "Error: No player list\n";
-        return;
-    }
-    for(int i = 0; i < PList.size(); i ++)
+    for(int i = 0; i < n; i ++)
     {
         PList[i].clearMsg();
     }
-    for(int i = 0; i < PList.size(); i ++)
+    for(int i = 0; i < n; i ++)
     {
         PList[i].msg(PList);
     }
@@ -82,27 +91,25 @@ void GCP::output() //output determination
         PList[i].outDet();
     }
 }
-void GCP::checkOutput() //output determination
+void GCP::checkOutput(int c) //output determination
 {
     for(int i = 0; i < PList.size(); i ++)
     {
-        PList[i].printVG();
+        PList[i].print(c);
     }
 }
 void GCP::calcVG()
 {
-    // for (int i = 0; i < 5; i ++) std::cout << rand() % 2;
-    // std::cout << "\n";
-    generatePlayers();
-    //std::cout << "Generated\n";
+    calcInitV();
+    //std::cout << "calcInit\n";
     sendMsg();
-    //std::cout << "Sent round1\n";
+    //std::cout << "msg1\n";
     allCheck();
-    //std::cout << "Checked\n";
+    //std::cout << "check\n";
     sendMsg();
-    //std::cout << "Sent round2\n";
+    //std::cout << "msg2\n";
     output();
-    //std::cout << "Output\n";
-    //checkOutput();
+
+    checkOutput();
 }
 #endif

@@ -108,10 +108,10 @@ int main() {
 
     // The seed Q^(r-1) = hash_value(active_public_keys^(r-1))
     // Dunno what should the init value should be
-    uint256_t seed = 0;
+    std::string seed = 0;
     //std::vector<uint256_t> active_public_keys;
-    std::vector<uint256_t> credentials;
-    std::vector<size_t> verifiers;
+    std::vector<std::string> credentials;
+    std::vector<int> verifiers;
 
     for (size_t r = 0; r != max_rounds; ++r) {
         //active_public_keys.clear();

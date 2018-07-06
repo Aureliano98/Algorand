@@ -10,10 +10,10 @@ BigInteger::BigInteger( const std::string& HashValue ):is_negative(false)
             is_negative = true;
         t = t.substr(1);
     }
-    int cnt = (32-(t.size()%32))%32;// 数的长度不是32的倍数,补足0
+    size_t cnt = (32-(t.size()%32))%32;// 数的长度不是32的倍数,补足0
     std::string temp;
 
-    for (int i=0; i<cnt; ++i)
+    for (size_t i=0; i<cnt; ++i)
         temp.push_back('0');
 
     t = temp+t;
