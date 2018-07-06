@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
     a.step4(PList, 5);
     //std::cout << "step4\n";
 
+    
     a.checkOutput();
     return 0;
 }

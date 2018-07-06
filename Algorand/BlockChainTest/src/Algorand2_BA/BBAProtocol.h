@@ -43,6 +43,13 @@ void sendMsg()
 }
 void calcBBAP();
 
+void step1(std::vector<Player> _PList, int _t, int leader)
+{
+    updatePList(_PList, _t);
+    blockPropose(leader);
+    sendMsg();
+}
+
 void step2(std::vector<Player> _PList, int _t)
 {
     updatePList(_PList, _t);
@@ -64,23 +71,29 @@ void step4(std::vector<Player> _PList, int _t)
     gc.output();
     sendMsg();
 }
-void stepS(int s, std::vector<Player> _PList, int _t)
+Block* stepS(int s, std::vector<Player> _PList, int _t)
 {
+    Block* newBlock = NULL;
     updatePList(_PList, _t);
     if((s - 2) % 3 == 0)
     {
-
+        newBlock = mod0();
+        if (newBlock != NULL) return newBlock;
     }
     else if((s - 2) % 3 == 1)
     {
-
+        newBlock = mod1();
+        if (newBlock != NULL) return newBlock;
     }
     else
     {
-
+        newBlock = mod2();
+        if (newBlock != NULL) return newBlock;
     }
     sendMsg();
+
 }
+void blockPropose(int leader);
 void mod0();
 void mod1();
 void mod2();
@@ -90,26 +103,44 @@ void checkOutput()
 }
 };
 
-void BBAP::mod0()
+void BBAP::blockPropose(int leader)
 {
     for (int i = 0; i < n; i ++)
     {
-        PList[i].coin0();
+        PList[i].newRound();
+        PList[i].propose(PList, leader);
     }
 }
-void BBAP::mod1()
+
+Block* BBAP::mod0()
 {
+    Block* newBlock = NULL;
     for (int i = 0; i < n; i ++)
     {
-        PList[i].coin1();
+        newBlock = PList[i].coin0();
+        if (newBlock != NULL) return newBlock;
     }
+    return NULL;
 }
-void BBAP::mod2()
+Block* BBAP::mod1()
 {
+    Block* newBlock = NULL;
     for (int i = 0; i < n; i ++)
     {
-        PList[i].coinFlip();
+        newBlock = PList[i].coin1();
+        if (newBlock != NULL) return newBlock;
     }
+    return NULL;
+}
+Block* BBAP::mod2()
+{
+    Block* newBlock = NULL;
+    for (int i = 0; i < n; i ++)
+    {
+        newBlock = PList[i].coinFlip();
+        if (newBlock != NULL) return newBlock;
+    }
+    return NULL;
 }
 #endif
 
