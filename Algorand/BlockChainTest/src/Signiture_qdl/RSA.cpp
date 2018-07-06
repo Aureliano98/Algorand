@@ -32,7 +32,6 @@ void RSA::Initialize(std::ifstream& fin)
   // 设置加解密指数e和d
   GetExponent(Euler);
   
-
 }
 void RSA::GetExponent( const BigInteger& Eul )
 {

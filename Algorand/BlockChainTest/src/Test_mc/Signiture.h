@@ -1,7 +1,6 @@
 #ifndef SIGNITURE_H
 #define SIGNITURE_H
-#include <string>
 
-std::string SIG(const std::string& msg); 
-
+#include "../Signiture_qdl/SignatureBasedOnRSA.h"
+using namespace Signature;
 #endif // !SIGNITURE_H

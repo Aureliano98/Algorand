@@ -70,7 +70,7 @@ public:
     if (m_money < payment)
       return;
     
-    m_dealmaker.m_payments.push_back(m_userKey.key[0].IntoBinaryS() + Cloud::Instance().PK[receiver].IntoBinaryS() + publicInfo + secretInfo);
+    m_dealmaker.m_payments.push_back(m_dealmaker.Payment(m_data->m_identifier,receiver,payment,publicInfo,secretInfo));
   }
   
   int GetMoney() const

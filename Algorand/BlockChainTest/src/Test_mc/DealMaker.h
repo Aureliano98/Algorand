@@ -16,6 +16,7 @@
 #include "../BA_Protocol/BBAProtocol.h"
 #include "../Signiture_qdl/SignatureBasedOnRSA.h"
 #include <string>
+using namespace Signature;
 class DealMaker
 {
 public:
@@ -37,10 +38,10 @@ public:
 
   //payment:(pk, pk', money, not sensitive information, sensitive information)
   std::string Payment(const int from, const int to, int money,
-							const std::string& publicInfo, std::string& secretInfo)
+							const std::string& publicInfo,const std::string& secretInfo)
 	{
-		return SIG(Cloud::Instance().PK[from] + Cloud::Instance().PK[to] + std::to_string(money) +
-					publicInfo + hashToBinaryString(sha256(secretInfo)));
+		return m_userKey->Sign(hashToBinaryString(sha256(Cloud::Instance().PK[from].IntoBinaryS() + Cloud::Instance().PK[to].IntoBinaryS() + std::to_string(money) +
+					publicInfo + hashToBinaryString(sha256(secretInfo))))).IntoBinaryS();
 	};
 
   static void Agreement() {};

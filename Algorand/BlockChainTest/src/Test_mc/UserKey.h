@@ -11,17 +11,24 @@
 #include <string>
 #include <vector>
 #include <fstream>
-using namespace SignatureBasedOnRSA;
-class UserKey
+class UserKey : protected SignatureBasedOnRSA
 {
 public:
-
-  UserKey()
+  static const enum Pos
   {
-    InitKey(fin);
-    GetKey(key[mod], key[pub], key[scr]);
-    Cloud::Instance().PK.push_back(key[pub]);
-    Cloud::Instance().PK.push_back(key[mod]);
+    pub = 0,
+    scr = 1,
+    mod = 2
+  };
+  using SignatureBasedOnRSA::Sign;
+  using SignatureBasedOnRSA::SignatureBasedOnRSA;
+ 
+
+  UserKey():SignatureBasedOnRSA(fin)
+  {
+
+    Cloud::Instance().PK.push_back(rsa.E);
+    Cloud::Instance().PK.push_back(rsa.N);
   }
 
   ~UserKey()
@@ -29,10 +36,24 @@ public:
     fin.close();
   }
 
-  void GenerateMasterKey()
+  void GenerateMasterKey() {};
+
+  BigInteger& key(int pos)
   {
-    InitKey(fin);
-    GetKey(MK[mod], MK[pub], MK[scr]);
+    switch(pos)
+    {
+    case pub:
+      return rsa.E;
+      break;
+    
+    case scr:
+      return rsa.D;
+      break;
+    
+    case mod:
+      return rsa.N;
+      break;
+    }
   }
   /*
   void GenerateKey(BigInteger& pKey, BigInteger& sKey,BigInteger& Mod)
@@ -43,7 +64,7 @@ public:
   //two kind of keys
   //Class is a class qdl create to store the big number of keys
   //It is not finished yet
-  BigInteger key[3];
+  //BigInteger key[3];
   //std::string pub_key, scr_key;
 
   //You can change the name of these ephemeral keys
@@ -52,12 +73,9 @@ public:
 
   BigInteger MK[3];
   //std::string PMK, SMK;
-public:
-  
-  static int pub, scr, mod;
 
 private:
-  
+
   static std::ifstream fin;
 
 private:
@@ -78,9 +96,6 @@ private:
   //bool isCreated;
 };
 
-int UserKey::pub = 0;
-int UserKey::scr = 1;
-int UserKey::mod = 2;
 std::ifstream UserKey::fin("../key/primekey");
 #endif // !USERKEY_H
 

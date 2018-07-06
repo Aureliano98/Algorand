@@ -34,7 +34,9 @@ BigInteger::BigInteger( const std::string& HashValue ):is_negative(false)
 
 void BigInteger::Zhuan( ULL x )
 {
-	Num.clear(); is_negative = x < 0; if( x < 0 ) x = -x;
+	Num.clear(); 
+  is_negative = x < 0; 
+  //error//if( x < 0 ) x = -x;
 	if( x == 0 ) {
 		Num.push_back( 0 );
 		return;

@@ -18,8 +18,8 @@ Sortition::Sortition()
 
 bool Sortition::verifyPotential(UserKey* uk,BlockChain* bc, int round, int step)
 {
-	std::string credential = SIG(std::to_string(round) + std::to_string(1) +
-		bc->GetTail()->seed);
+	std::string credential = uk->Sign(std::to_string(round) + std::to_string(1) +
+		bc->GetTail()->seed).IntoBinaryS();
 	std::string hashCr = hashToBinaryString(sha256(credential));
 
 	double number = 0.0;
@@ -46,13 +46,13 @@ void Sortition::generateMasterKey(UserKey* uk, BlockChain* bc, int userNumber)
 {
 	uk->GenerateMasterKey();
 
-	//a pice of informing information
-	std::string publicInfo = SIG(std::to_string(userNumber) + std::to_string(bc->Length() + 1) +
-		std::to_string(bc->Length() + 10001));
+	//a piece of informing information
+	std::string publicInfo = uk->Sign(std::to_string(userNumber) + std::to_string(bc->Length() + 1) +
+		std::to_string(bc->Length() + 10001)).IntoBinaryS();
 
 	//use this payment to let other users know the change of PMK
 	//use MakeADeal(uk->pub_key, uk->pub_key, 0, publicInfo, "") in DealMaker;
-
+  
 	//updateEphemeralKey(uk, bc, userNumber);
 }
 /*

@@ -9,12 +9,15 @@ BigInteger SignatureBasedOnRSA::Sign( const std::string& HashValue )
 	return code;
 }
 
-void SignatureBasedOnRSA::GetKey( BigInteger & N, BigInteger& E, BigInteger& D )
+
+void Signature::GetKey( std::ifstream& fin, BigInteger & N, BigInteger& E, BigInteger& D )
 {
+  rsa.Initialize(fin);
 	N = rsa.N;  E = rsa.E; D = rsa.D;
 }
 
-bool SignatureBasedOnRSA::Vertify(  const std::string& HashValue, const BigInteger& CODE, const BigInteger& N, const BigInteger&E  )
+
+bool Signature::Vertify(  const std::string& HashValue, const BigInteger& CODE, const BigInteger& N, const BigInteger&E  )
 {
 	BigInteger Hash( HashValue ),val;
 	val = ModPow( CODE, E, N );
@@ -33,14 +36,14 @@ void SignatureBasedOnRSA::ComputeKey( int p, int q, BigInteger& N, BigInteger& E
 }
 */
 
-BigInteger SignatureBasedOnRSA::EncryptWith( const std::string& HashValue, const BigInteger& N, const BigInteger& D )
+BigInteger Signature::EncryptWith( const std::string& HashValue, const BigInteger& N, const BigInteger& D )
 {
 	BigInteger ming(HashValue),val;
 	val = ModPow( ming, D, N );
 	return val;
 }
 
-BigInteger SignatureBasedOnRSA::DecryptWith( const BigInteger& c, const BigInteger& N, const BigInteger& E )
+BigInteger Signature::DecryptWith( const BigInteger& c, const BigInteger& N, const BigInteger& E )
 {
 	BigInteger val;
 	val = ModPow( c, E, N );

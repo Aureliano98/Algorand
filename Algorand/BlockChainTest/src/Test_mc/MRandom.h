@@ -1,7 +1,7 @@
 #ifndef MRANDOM_H
 #define MRANDOM_H
-
 #include <boost/timer/timer.hpp>
+
 class MRandom
 {
 public:
@@ -9,10 +9,12 @@ public:
   {
     m_runtime.start();
   }
+
   ~MRandom()
   {
     m_runtime.stop();
   }
+
   //Give a random int [minimum,maximum];
   static int RandInt(int minimum, int maximum) 
   {

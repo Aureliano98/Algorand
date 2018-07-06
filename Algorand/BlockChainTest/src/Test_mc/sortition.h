@@ -15,7 +15,7 @@ public:
   
 private:
 
-	void updateEphemeralKey(UserKey* uk, BlockChain* bc, int userNumber);
+	//void updateEphemeralKey(UserKey* uk, BlockChain* bc, int userNumber);
 
 	//All the active user in round r
 	int N;
