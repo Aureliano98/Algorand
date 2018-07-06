@@ -13,9 +13,11 @@
 #include <time.h>
 #include <fstream>
 class Test;
+class sortition;
 //class Attacker;
 class User
 {
+  friend sortition;
 public:
   //friend class Attacker;
   friend class Test;

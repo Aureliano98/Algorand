@@ -18,8 +18,9 @@ Sortition::Sortition()
 
 bool Sortition::verifyPotential(UserKey* uk,BlockChain* bc, int round, int step)
 {
-	std::string credential = uk->Sign(std::to_string(round) + std::to_string(1) +
-		bc->GetTail()->seed).IntoBinaryS();
+  std::string info = std::to_string(round) + std::to_string(step) + bc->GetTail()->seed;
+  std::string hashInfo = hashToBinaryString(sha256(info));
+	std::string credential = uk->Sign(hashInfo).IntoBinaryS();
 	std::string hashCr = hashToBinaryString(sha256(credential));
 
 	double number = 0.0;
@@ -42,6 +43,7 @@ bool Sortition::verifyPotential(UserKey* uk,BlockChain* bc, int round, int step)
 	return false;
 }
 
+/*
 void Sortition::generateMasterKey(UserKey* uk, BlockChain* bc, int userNumber)
 {
 	uk->GenerateMasterKey();
@@ -55,7 +57,7 @@ void Sortition::generateMasterKey(UserKey* uk, BlockChain* bc, int userNumber)
   
 	//updateEphemeralKey(uk, bc, userNumber);
 }
-/*
+
 void Sortition::updateEphemeralKey(UserKey* uk, BlockChain* bc, int userNumber)
 {
 	std::ofstream pkout("../key/pk/" + std::to_string(userNumber), std::ios::binary);

@@ -28,9 +28,6 @@
     <ClCompile Include="src\Test_mc\Cloud.cpp">
       <Filter>Test_mc\BasicBasic</Filter>
     </ClCompile>
-    <ClCompile Include="src\selection_lyl\selection.cpp">
-      <Filter>selection_lyl</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Test_mc">
@@ -59,9 +56,6 @@
     </Filter>
     <Filter Include="Test_mc\BasicBasic">
       <UniqueIdentifier>{7dde7a66-30e8-4b06-b425-80ecc1c69d50}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="selection_lyl">
-      <UniqueIdentifier>{54a44a5a-1306-4a71-86b2-0edfcbe9363b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -121,9 +115,6 @@
     </ClInclude>
     <ClInclude Include="src\Test_mc\Cloud.h">
       <Filter>Test_mc\BasicBasic</Filter>
-    </ClInclude>
-    <ClInclude Include="src\selection_lyl\xalgorand.h">
-      <Filter>selection_lyl</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
