@@ -55,7 +55,7 @@ public:
     c_Users.push_back(user);
     user->SetFirstBlock(firstblock);
 
-    Cloud::Instance().active.push_back(false);
+    Cloud::Instance().AddPlayer(1);
   }
 
   //Add a bunch of users
@@ -67,10 +67,10 @@ public:
     for (int i = 0; i < number; ++i)
     {
       c_Users.push_back(new User(&n,&t));
-      Cloud::Instance().active.push_back(false);
     }
-      
-
+    
+    Cloud::Instance().AddPlayer(number);
+    
     for (int i = first; i < c_Users.size(); ++i)
     {
       c_Users[i]->m_software.SetFirstBlock(firstblock);
@@ -83,9 +83,12 @@ public:
   void AddAttacker(Attacker* attacker)
   {
     t += 1;
+    
     c_Attackers.push_back(attacker);
+    
     attacker->SetFirstBlock(firstblock);
-    Cloud::Instance().active.push_back(false);
+    
+    Cloud::Instance().AddPlayer(1);
   }
 
   //Add a bunch of Attackers
@@ -97,10 +100,11 @@ public:
     for (int i = 0; i < number; ++i)
       c_Attackers.push_back(new Attacker());
 
+    Cloud::Instance().AddPlayer(number);
+
     for (int i = first; i < c_Attackers.size(); ++i)
     {
       c_Attackers[i]->SetFirstBlock(firstblock);
-      Cloud::Instance().active.push_back(false);
     }
   }
   */

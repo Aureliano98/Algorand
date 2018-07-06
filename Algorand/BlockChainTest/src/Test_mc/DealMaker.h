@@ -48,8 +48,8 @@ public:
   void Verify(int round)
   {
     r = round;
-    if (m_sortition.verifyPotential(m_userKey, m_blockchain, r, s));
-    PList.push_back(new Player(m_data->m_identifier, *n, *t, m_data->m_type == m_data->Honest ? true : false));
+    if (m_sortition.verifyPotential(m_userKey, m_blockchain, r, s))
+      PList.push_back(new Player(m_data->m_identifier, *n, *t, m_data->m_type == m_data->Honest ? true : false));
   }
 
   //Storing all the payment the user make

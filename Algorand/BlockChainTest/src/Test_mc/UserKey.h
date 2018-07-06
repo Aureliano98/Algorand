@@ -16,9 +16,9 @@ class UserKey : protected SignatureBasedOnRSA
 public:
   static const enum Pos
   {
-    pub = 0,
-    scr = 1,
-    mod = 2
+    E = 0,
+    D = 1,
+    N = 2
   };
   using SignatureBasedOnRSA::Sign;
   using SignatureBasedOnRSA::SignatureBasedOnRSA;
@@ -26,31 +26,34 @@ public:
 
   UserKey():SignatureBasedOnRSA(fin)
   {
-
     Cloud::Instance().PK.push_back(rsa.E);
-    Cloud::Instance().PK.push_back(rsa.N);
+    Cloud::Instance().PKMOD.push_back(rsa.N);
   }
 
   ~UserKey()
   {
-    fin.close();
+    if(fin.is_open())
+      fin.close();
   }
 
-  void GenerateMasterKey() {};
+  void GenerateMasterKey() 
+  {
+    GetKey(fin, MK[N], MK[E], MK[D]);
+  };
 
   BigInteger& key(int pos)
   {
     switch(pos)
     {
-    case pub:
+    case E:
       return rsa.E;
       break;
     
-    case scr:
+    case D:
       return rsa.D;
       break;
     
-    case mod:
+    case N:
       return rsa.N;
       break;
     }

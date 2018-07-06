@@ -7,7 +7,6 @@
 #include <random>
 #include <boost/container_hash/hash.hpp>
 
-using namespace std;
 ALGORAND_USING;
 
 using boost::multiprecision::hash_value;
@@ -15,8 +14,8 @@ using boost::hash_value;
 
 ALGORAND_BEGIN
 using key_type = void *;    // for exposition; TODO: change this
-using binary_string = vector<int>;
-using big_sig_type = tuple<size_t, binary_string, binary_string>;
+using binary_string = std::vector<int>;
+using big_sig_type = std::tuple<size_t, binary_string, binary_string>;
 
 namespace detail {
     template<typename InIt>
@@ -54,7 +53,7 @@ binary_string to_binary_string(const ALGORAND uint256_t &x) {
 
 binary_string to_binary_string(const big_sig_type &x) {
     binary_string str = to_binary_string(
-        boost::lexical_cast<string>(get_big_sig_type_index(x)));
+        boost::lexical_cast<std::string>(get_big_sig_type_index(x)));
     copy(get_big_sig_type_message(x).cbegin(),
         get_big_sig_type_message(x).cend(),
         back_inserter(str));
@@ -96,23 +95,23 @@ int main() {
     //constexpr ptrdiff_t traceback_k = 1; // Set k as needed
 
     size_t num_users, max_rounds;
-    cin >> num_users >> max_rounds;
+    std::cin >> num_users >> max_rounds;
 
-    default_random_engine eng(random_device{}());
-    uniform_real_distribution<> random(0, 1);
+    std::default_random_engine eng(std::random_device{}());
+    std::uniform_real_distribution<> random(0, 1);
 
     // User info, may be encapsulated in some user class
     // TODO: replace these
-    vector<key_type> priv_keys(num_users);
-    vector<key_type> public_keys(num_users);
-    vector<binary_string> messages(num_users);
+    std::vector<key_type> priv_keys(num_users);
+    std::vector<key_type> public_keys(num_users);
+    std::vector<binary_string> messages(num_users);
 
     // The seed Q^(r-1) = hash_value(active_public_keys^(r-1))
     // Dunno what should the init value should be
     uint256_t seed = 0;
-    //vector<uint256_t> active_public_keys;
-    vector<uint256_t> credentials;
-    vector<size_t> verifiers;
+    //std::vector<uint256_t> active_public_keys;
+    std::vector<uint256_t> credentials;
+    std::vector<size_t> verifiers;
 
     for (size_t r = 0; r != max_rounds; ++r) {
         //active_public_keys.clear();
@@ -146,11 +145,11 @@ int main() {
             // is not consistent with the paper (p.30). Below complies with
             // the paper.
             auto bin_str = to_binary_string(big_sig(leader, seed));
-            auto str = to_binary_string(to_string(r));
+            auto str = to_binary_string(std::to_string(r));
             copy(begin(str), end(str), back_inserter(bin_str));
             seed = hash_value(bin_str);
         } else {
-            seed = hash_value(seed.str() + to_string(r));
+            seed = hash_value(seed.str() + std::to_string(r));
         }
     }
 

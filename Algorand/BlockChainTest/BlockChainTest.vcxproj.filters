@@ -10,14 +10,8 @@
     <ClCompile Include="src\Test_mc\sortition.cpp">
       <Filter>sortition_cjw</Filter>
     </ClCompile>
-    <ClCompile Include="src\Test_mc\Cloud.cpp">
-      <Filter>Test_mc</Filter>
-    </ClCompile>
     <ClCompile Include="src\Test_mc\Block.cpp">
       <Filter>Test_mc\Software</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Test_mc\MRandom.cpp">
-      <Filter>Test_mc</Filter>
     </ClCompile>
     <ClCompile Include="src\Signiture_qdl\RSA.cpp">
       <Filter>Signiture_qdl</Filter>
@@ -27,6 +21,15 @@
     </ClCompile>
     <ClCompile Include="src\Signiture_qdl\SignatureBasedOnRSA.cpp">
       <Filter>Signiture_qdl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test_mc\MRandom.cpp">
+      <Filter>Test_mc\BasicBasic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test_mc\Cloud.cpp">
+      <Filter>Test_mc\BasicBasic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\selection_lyl\selection.cpp">
+      <Filter>selection_lyl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +57,12 @@
     <Filter Include="BA_Protocol">
       <UniqueIdentifier>{c181640b-adc4-4a6d-adc9-48ced03ea607}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Test_mc\BasicBasic">
+      <UniqueIdentifier>{7dde7a66-30e8-4b06-b425-80ecc1c69d50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="selection_lyl">
+      <UniqueIdentifier>{54a44a5a-1306-4a71-86b2-0edfcbe9363b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Test_mc\BlockChain.h">
@@ -80,9 +89,6 @@
     <ClInclude Include="src\Test_mc\Block.h">
       <Filter>Test_mc\Software</Filter>
     </ClInclude>
-    <ClInclude Include="src\Test_mc\Cloud.h">
-      <Filter>Test_mc</Filter>
-    </ClInclude>
     <ClInclude Include="src\Test_mc\sortition.h">
       <Filter>sortition_cjw</Filter>
     </ClInclude>
@@ -98,9 +104,6 @@
     <ClInclude Include="src\Signiture_qdl\SignatureBasedOnRSA.h">
       <Filter>Signiture_qdl</Filter>
     </ClInclude>
-    <ClInclude Include="src\Test_mc\MRandom.h">
-      <Filter>Test_mc</Filter>
-    </ClInclude>
     <ClInclude Include="src\BA_Protocol\BBAProtocol.h">
       <Filter>BA_Protocol</Filter>
     </ClInclude>
@@ -112,6 +115,15 @@
     </ClInclude>
     <ClInclude Include="src\Test_mc\UserData.h">
       <Filter>Test_mc\Software</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test_mc\MRandom.h">
+      <Filter>Test_mc\BasicBasic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test_mc\Cloud.h">
+      <Filter>Test_mc\BasicBasic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\selection_lyl\xalgorand.h">
+      <Filter>selection_lyl</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
