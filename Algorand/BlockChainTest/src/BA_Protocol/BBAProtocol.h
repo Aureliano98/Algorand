@@ -2,7 +2,6 @@
 *   Binary Byzantine agreement Protocol
 *   Kevin Chen - 29/6/18
 *   outi = either 0 or 1 for all honest players
-*
 */
 #ifndef BBAP_H_
 #define BBAP_H_
