@@ -3,6 +3,7 @@
 class Software;
 class DealMaker;
 class User;
+class Player;
 class UserData
 {
 public:
@@ -21,6 +22,7 @@ public:
   friend Software;
   friend DealMaker;
   friend User;
+  friend Player;
 private:
   //use the number of users to give identifier
   //c_Id shows how many users have been created

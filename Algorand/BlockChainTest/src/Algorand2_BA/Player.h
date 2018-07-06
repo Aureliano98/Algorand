@@ -13,35 +13,41 @@
 #include <time.h>
 #include <algorithm>
 #include <cstring>
-
+#include "../Test_mc/User.h"
 struct MSG
 {
-    std::string ecrpt, orig;
-    //BigInteger E, N;
+    std::string ecrpt, orig, orig2;
+    BigInteger E, N;
     bool operator == (MSG& right)
     {
         return ecrpt.compare(right.ecrpt) == 0;
     }
+    Block* block;
 };
 
-
-class Player
+class Player : public User
 {
 private:
 int ID, n, t = 0, b;
 bool aff, halt = false;
 
+MSG proposeBlock;
 MSG message;
 MSG ESIGi, ESIGb; //ESIG of player, ESIG blank
 std::string v;
-
+std::string credentials;
 std::pair <std::string, int> VGPair;
 std::vector<MSG> recieved;
 
 public:
+/*
 Player(int _ID, bool _aff = true):ID(_ID), aff(_aff)
 {
     srand(time(NULL));
+}
+*/
+Player(int _ID, bool _aff = true) :User(),ID(m_data.m_identifier)
+{
 }
 ~Player(){}
 
@@ -97,25 +103,26 @@ void Player::findV(std::vector<Player> &PList, int _t)
 {
     n = PList.size();
     t = _t;
-    // int j = 0;
-    // std::string minHash /*= sha256(PList[0].credentials)*/, curHash;
-    // for (int i = 1; i < n; i ++)
-    // {
-    //     //curHash = sha256(PList[i].credentials);
-    //     if (curHash > minHash)
-    //     {
-    //         minHash = curHash;
-    //         j = i;
-    //     }
-    // }
-    // if(PList[j].prevBlock != NULL && sha256(prevBlock) == sha(cert.Block))
-    // {
-    //     v = hash()
-    // }
-    // else
-    // {
-    //     v = "";
-    // }
+    int l = 0;
+    std::string minHash = hashToBinaryString(sha256(PList[0].credentials)), curHash;
+    for (int i = 1; i < n; i ++)
+    {
+         curHash = hashToBinaryString(sha256(PList[i].credentials));
+         if (curHash < minHash)
+         {
+             minHash = curHash;
+             l = i;
+         }
+     }
+    const Block* preBlock = PList[l].m_software.m_blockchain.GetTail();
+     if(proposeBlock == PList[l].proposeBlock)
+     {
+       v = hashToBinaryString(sha256(PList[l].proposeBlock.orig));
+     }
+     else
+     {
+         v = "";
+     }
 
     MSG newMSG;
     //newMSG.encrpt = v; // turn v into a message using j
@@ -196,7 +203,8 @@ void Player::outDet()
 
     MSG newMSG;
     //newMSG.encrpt = v; // turn v into a message using j
-    newMSG.orig = v;
+    newMSG.orig = b;
+    newMSG.orig2 = v;
     message = newMSG;
 
     ESIGi = newMSG;

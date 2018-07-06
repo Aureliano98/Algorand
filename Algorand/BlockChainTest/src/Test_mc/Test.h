@@ -4,7 +4,7 @@
 
 #ifndef TEST_H
 #define TEST_H
-#include "User.h"
+#include "../BA_Protocol/Player.h"
 //#include "Attacker.h"
 #include "sortition.h"
 #include "MRandom.h"
@@ -16,8 +16,9 @@
 class Test
 {
 public:
-  Test() 
+  Test():m_BBAP(PList)
   {
+    PList.clear();
     c_Users.clear();
     //c_Attackers.clear();
 
@@ -51,7 +52,7 @@ public:
  }
   
   //Add a specific user
-  void AddUser(User* user)
+  void AddUser(Player* user)
   {
     n++;
     c_Users.push_back(user);
@@ -68,7 +69,7 @@ public:
 
     for (int i = 0; i < number; ++i)
     {
-      c_Users.push_back(new User(&n,&t));
+      c_Users.push_back(new Player());
     }
     
     Cloud::Instance().AddPlayer(number);
@@ -111,7 +112,7 @@ public:
   }
   */
 
-  User* GetUser(int index)
+  Player* GetUser(int index)
   {
     if (index >= c_Users.size() || index < 0)
       return NULL;
@@ -150,15 +151,10 @@ public:
       
     //Then deals will occur
     int num = MRandom::RandInt(0, c_Users.size()/2);
-    AddPays(num);
+    AddAPay();
     
     Main();
-    //MakeSortition();
-
-    //Then we get to an agreement
-    //A new block should have been added into chain here
-    //Agreement();
-
+    
     //Save the blocks into .txt files to imitate the saving progress
     SaveData();
   }
@@ -184,9 +180,10 @@ protected:
     {
       userB = MRandom::RandInt(0, c_Users.size());
     }
-
+    int payment = MRandom::RandInt(1, c_Users[userA]->GetMoney());
     //userA wants to make a deal with userB
-    c_Users[userA]->CreatPay(c_Users[userB]->GetId(), MRandom::RandInt(1, c_Users[userA]->GetMoney()), std::to_string(userA),std::to_string(m_runtime.elapsed().wall));
+    c_Users[userA]->CreatPay(c_Users[userB]->GetId(),-payment, std::to_string(userA), std::to_string(m_runtime.elapsed().wall));
+    c_Users[userB]->CreatPay(c_Users[userA]->GetId(),+payment, std::to_string(userA), std::to_string(m_runtime.elapsed().wall));
   }
 
   //Add several deals
@@ -203,50 +200,80 @@ protected:
       {
         userB = MRandom::RandInt(0, c_Users.size());
       }
-      c_Users[userA]->CreatPay(c_Users[userB]->GetId(), MRandom::RandInt(1, c_Users[userA]->GetMoney()), std::to_string(userA), std::to_string(m_runtime.elapsed().wall));
+      int payment = MRandom::RandInt(1, c_Users[userA]->GetMoney());
+      //userA wants to make a deal with userB
+      c_Users[userA]->CreatPay(c_Users[userB]->GetId(), -payment, std::to_string(userA), std::to_string(m_runtime.elapsed().wall));
+      c_Users[userB]->CreatPay(c_Users[userA]->GetId(), +payment, std::to_string(userA), std::to_string(m_runtime.elapsed().wall));
     }
   }
 
   void Main()
   {
-    for (int s = 0; s <= m; ++s) {
-      //active_public_keys.clear();
+    Block* newBlock = NULL;
+    for (int s = 0; s <= m + 2; ++s) {
+      //verifiers.clear();
       PList.clear();
+      
       int leader;
       // Each user gets his SIG_i
       for (int i = 0; i < n; ++i) {
         //verify players
         m_sortition.verifyVerifier(c_Users[i], PList, timestep, s);
-        //add credentials
-        credentials[i] = m_sortition.getCredential(c_Users[i],timestep,s);
+
         // Select $(leader)
         leader = m_sortition.verifyLeader(c_Users[i], timestep, i == n - 1 ? true : false);
       }
 
-      bool is_new_block_empty = false;
-      // The leader constructs a new block, then runs BA
-      // is_new_block_empty should be set finally
+      //update credentials
+      for(int i = 0; i < PList.size(); ++i)
+        PList[i]->credentials = m_sortition.getCredential(c_Users[i], timestep, s);
+
+      //BBA*
+      switch (s)
+      {
+      case 1:
+        break;
+      case 2:
+        break;
+      case 3:
+        break;
+      case 4:
+        break;
+      default:
+        break;
+      }
       
+    }
+    if (newBlock == NULL)
+    {
+
+    }
+
+    for (int i = 0; i < c_Users.size(); ++i)
+    {
+      c_Users[i]->m_software.m_blockchain.AddBlock();
     }
   }
  
 private:
   void operator = (Test&) {};
-  Test(Test&) {};
+  Test(Test& a):m_BBAP(a.PList){};
 
   static int timestep;
 
   static boost::timer::cpu_timer m_runtime;
 
   //current Users
-  std::vector<User*> c_Users;
+  std::vector<Player*> c_Users;
   //current Attackers
   //std::vector<Attacker*> c_Attackers;
 
-  std::vector<Player> PList;
+  std::vector<Player*> PList;
   std::vector<std::string> credentials;
   
   Sortition m_sortition;
+
+  BBAP m_BBAP;
 
   int n, t;
 

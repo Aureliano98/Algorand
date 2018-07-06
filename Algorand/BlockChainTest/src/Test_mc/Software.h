@@ -41,6 +41,7 @@ struct MSG
 
 class Sortition;
 class Test;
+class Player;
 
 class Software
 {
@@ -49,9 +50,10 @@ public:
 
   friend Test;
   friend Sortition;
+  friend Player;
   //friend DealMaker;
 
-  Software(int* n,int* t,UserData* data) :m_data(data),m_blockchain(),m_userKey()
+  Software(UserData* data) :m_data(data),m_blockchain(),m_userKey()
   {
     m_money = 100;
     m_round = 0;

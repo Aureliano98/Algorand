@@ -98,9 +98,6 @@
     <ClInclude Include="src\BA_Protocol\GCProtocol.h">
       <Filter>BA_Protocol</Filter>
     </ClInclude>
-    <ClInclude Include="src\BA_Protocol\Player.h">
-      <Filter>BA_Protocol</Filter>
-    </ClInclude>
     <ClInclude Include="src\Test_mc\UserData.h">
       <Filter>Test_mc\Software</Filter>
     </ClInclude>
@@ -109,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="src\Test_mc\Cloud.h">
       <Filter>Test_mc\BasicBasic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BA_Protocol\Player.h">
+      <Filter>BA_Protocol</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

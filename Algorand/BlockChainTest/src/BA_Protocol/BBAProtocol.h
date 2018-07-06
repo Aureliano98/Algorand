@@ -2,6 +2,7 @@
 *   Binary Byzantine agreement Protocol
 *   Kevin Chen - 29/6/18
 *   outi = either 0 or 1 for all honest players
+*
 */
 #ifndef BBAP_H_
 #define BBAP_H_
@@ -17,11 +18,11 @@ class BBAP
 {
 private:
 int n, t = 0;
-std::vector<Player> &PList;
+std::vector<Player*> &PList;
 GCP gc;
 
 public:
-BBAP(std::vector<Player> &_PList):PList(_PList), n(_PList.size()), gc(_PList)
+BBAP(std::vector<Player*> &_PList):PList(_PList), n(_PList.size()), gc(_PList)
 {
 }
 ~BBAP(){}
@@ -30,96 +31,85 @@ void corruptPlayers(int _t)
     t = _t;
     gc.playerCorrupt(_t);
 }
-
+void updatePList(std::vector<Player*> &_PList, int _t)
+{
+    PList = _PList;
+    t = _t;
+    gc.update(_PList, _t);
+}
+void sendMsg()
+{
+    gc.sendMsg();
+}
 void calcBBAP();
-/*
-void getInitVal();
-void step1();
-void step2();
-void step3();
-int outVal();
-void checkOutput();
-*/
+
+void step2(std::vector<Player*> _PList, int _t)
+{
+    updatePList(_PList, _t);
+    gc.calcInitV();
+    sendMsg();
+}
+void step3(std::vector<Player*> _PList, int _t)
+{
+    updatePList(_PList, _t);
+    //std::cout << "update\n";
+    gc.allCheck();
+    //std::cout << "check\n";
+    sendMsg();
+    //std::cout << "sent\n";
+}
+void step4(std::vector<Player*> _PList, int _t)
+{
+    updatePList(_PList, _t);
+    gc.output();
+    sendMsg();
+}
+void stepS(int s, std::vector<Player*> _PList, int _t)
+{
+    updatePList(_PList, _t);
+    if((s - 2) % 3 == 0)
+    {
+
+    }
+    else if((s - 2) % 3 == 1)
+    {
+
+    }
+    else
+    {
+
+    }
+    sendMsg();
+}
+void mod0();
+void mod1();
+void mod2();
+void checkOutput()
+{
+    gc.checkOutput();
+}
 };
 
-void BBAP::calcBBAP()
+void BBAP::mod0()
 {
-    gc.calcVG();
-    // getInitVal();
-    // do
-    // {   
-    //     minHonest = false;
-    //     step1();
-    //     //std::cout << "step1 fin\n";
-    //     step2();
-    //     //std::cout << "step2 fin\n";
-    //     step3();
-    //     //std::cout << "step3 fin\n";
-    //     for (int i = 0; i < PList.size(); i ++)
-    //     {
-    //         if(!PList[i].checkHonesty())
-    //         {
-    //             minHonest = true;
-    //             break;
-    //         }
-    //     } 
-    //     //std::cout << minHonest << "\n";
-
-    //     gamma ++;
-    // }while(minHonest && gamma <= 10);
-    // //std::cout << "Iterated " << gamma << " times\n";
-    // //checkOutput();
-    // //std::cout << "out = " << outVal() << "\n";
-    return;
+    for (int i = 0; i < n; i ++)
+    {
+        PList[i]->coin0();
+    }
 }
-// void BBAP::getInitVal()
-// {
-//     for (int i = 0; i <  PList.size(); i ++)
-//     {
-//         if(PList[i].getPair().second == 2)
-//         {
-//             PList[i].setV(0);
-//         }
-//         else
-//         {
-//             PList[i].setV(1);
-//         }
-
-//     }
-// }
-// void BBAP::step1()
-// {
-//     for (int i = 0; i < PList.size(); i ++)
-//     {
-//         PList[i].msg(PList, '1');
-//     }
-// }
-// void BBAP::step2()
-// {
-//     for (int i = 0; i < PList.size(); i ++)
-//     {
-//         PList[i].msg(PList, '2');
-//     }
-// }
-
-// void BBAP::step3()
-// {
-//     for (int i = 0; i < PList.size(); i ++)
-//     {
-//         PList[i].msg(PList, '3');
-//     }
-// }
-// int BBAP::outVal()
-// {
-//     return PList[0].out();
-// }
-
-// void BBAP::checkOutput() //output determination
-// {
-//     for(int i = 0; i < PList.size(); i ++)
-//     {
-//         PList[i].printMsg();
-//     }
-// }
+void BBAP::mod1()
+{
+    for (int i = 0; i < n; i ++)
+    {
+        PList[i]->coin1();
+    }
+}
+void BBAP::mod2()
+{
+    for (int i = 0; i < n; i ++)
+    {
+        PList[i]->coinFlip();
+    }
+}
 #endif
 

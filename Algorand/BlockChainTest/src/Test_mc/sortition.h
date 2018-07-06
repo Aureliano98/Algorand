@@ -4,8 +4,7 @@
 #include "../Signiture_qdl/SignatureBasedOnRSA.h"
 #include "../sha256_ckw/sha256.h"
 #include "../BA_Protocol/Player.h"
-#include "User.h"
-
+using namespace Signature;
 class Sortition{
 public:
 	Sortition()
@@ -19,7 +18,7 @@ public:
 
 	//Verify whether a user is a potential leader in step 1
 	//when put in the last user, let last = true
-	int verifyLeader(User* user, int round, bool last = false)
+	int verifyLeader(Player* user, int round, bool last = false)
 	{
 		static double MIN = 1.0;
 		static int Id = 0;
@@ -44,7 +43,7 @@ public:
 	}
 
 	//Verify whether a user is a verifier in step > 1 
-	void verifyVerifier(User* user, std::vector <Player>& list, int round, int step)
+	void verifyVerifier(Player* user, std::vector <Player*>& list, int round, int step)
 	{
 		std::string hashCr = hashToBinaryString(sha256(getCredential(user, round, 1)));
 		double number = 0.0;
@@ -56,16 +55,20 @@ public:
 
 		if (number < p)
 		{
-			list.push_back(Player(user->GetId(), user->GetType()));
+			list.push_back(user);
 		}
 	}
 
-	std::string getCredential(User* user, int round, int step)
+	std::string getCredential(Player* user, int round, int step)
 	{
 		std::string info = std::to_string(round) + std::to_string(step) +
 			user->m_software.m_blockchain.GetTail()->seed;
 		std::string hashInfo = hashToBinaryString(sha256(info));
-		std::string credential = user->m_software.m_userKey.Sign(hashInfo).IntoBinaryS();
+    
+    user->m_software.m_userKey.GenerateMasterKey();
+    
+		std::string credential = EncryptWith(hashInfo, user->m_software.m_userKey.MK[UserKey::N], user->m_software.m_userKey.MK[UserKey::E]).IntoBinaryS();
+    return credential;
 	}
 
 private:

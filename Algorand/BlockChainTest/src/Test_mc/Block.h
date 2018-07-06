@@ -41,7 +41,7 @@ public:
   }
 
   //A block is based on the last one
-  Block(std::string msg,Block* Prev)
+  Block(const std::string &msg,Block* Prev)
   {
     assert(Prev);
     pre = Prev;
@@ -115,7 +115,7 @@ public:
 public:
   //Because the block cannot be hashed
   //so I change it to a string
-  std::string ToString()
+  std::string ToString() const
   {
     std::string s = std::to_string(round) + m_savedata + seed + c_hash;
     return s;

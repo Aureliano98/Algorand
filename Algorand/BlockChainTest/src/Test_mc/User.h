@@ -14,26 +14,26 @@
 #include <fstream>
 class Test;
 class Sortition;
+class Player;
 //class Attacker;
 class User
 {
   friend Sortition;
+  friend Player;
 public:
   //friend class Attacker;
-  friend class Test;
-  User(int* n1,int* t1):m_data(),m_software(n,t,&m_data)
+  friend Test;
+  User():m_data(),m_software(&m_data)
   {
-    n = n1;
-    t = t1;
   }
 
   //To create a deal message and then ask for a creation of blocks
   void CreatPay(int receiver, int payment, const std::string& pubInfo,const std::string& scrInfo)
   {
-    if (!Cloud::Instance().active[m_data.c_Id])
+    if (!Cloud::Instance().active[m_data.m_identifier])
     {
       Cloud::Instance().activeN++;
-      Cloud::Instance().active[m_data.c_Id] = true;
+      Cloud::Instance().active[m_data.m_identifier] = true;
     } 
     
     if (!Cloud::Instance().active[receiver])
@@ -65,28 +65,25 @@ public:
     m_software.PrintBlockChain();
   }
 
-  void SaveBlockChain()
-  {
-    char buffer[25];
-    sprintf_s(buffer, "data//%d", m_data.m_identifier);
-    std::ofstream fout(buffer);
-    m_software.SaveBlockChain(fout);
-  }
-
-protected:
-
   //All the users should be intialized by the first block
   void SetFirstBlock(Block* first)
   {
     m_software.SetFirstBlock(first);
   }
 
+  void SaveBlockChain()
+  {
+    char buffer[25];
+    sprintf_s(buffer, "data/%d", m_data.m_identifier);
+    std::ofstream fout(buffer);
+    m_software.SaveBlockChain(fout);
+  }
+
 private:
-  int *n, *t;
   // software holds all the datas and measures
   Software m_software;
   UserData m_data;
-  User(User&) :m_software(NULL,NULL,NULL){};
+  User(User& a) :m_software(NULL){};
   User& operator = (const User& user) {};
 };
 

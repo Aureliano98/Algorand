@@ -15,10 +15,11 @@
 #include <fstream>
 #include "Block.h"
 class DealMaker;
-
+class Player;
 class BlockChain
 {
 public:
+  friend Player;
   friend DealMaker;
   BlockChain() 
   {

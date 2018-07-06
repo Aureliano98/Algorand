@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
-using namespace std;
+using namespace Signature;
 class UserKey : protected SignatureBasedOnRSA
 {
 public:
@@ -100,6 +100,6 @@ private:
   //bool isCreated;
 };
 
-std::ifstream UserKey::fin("../key/PrimeSet");
+std::ifstream UserKey::fin("key/PrimeSet");
 #endif // !USERKEY_H
 
