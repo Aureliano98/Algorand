@@ -96,6 +96,6 @@ private:
   //bool isCreated;
 };
 
-std::ifstream UserKey::fin("../key/primekey");
+std::ifstream UserKey::fin("../key/PrimeSet");
 #endif // !USERKEY_H
 
