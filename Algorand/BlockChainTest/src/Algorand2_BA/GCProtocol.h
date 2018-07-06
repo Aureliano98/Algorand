@@ -21,7 +21,7 @@ class GCP
 {
 private:
 int n, t = 0;
-std::vector<Player> PList;
+std::vector<Player> &PList;
 
 public:
 GCP(std::vector<Player> &_PList):PList(_PList), n(_PList.size())
@@ -31,12 +31,18 @@ GCP(std::vector<Player> &_PList):PList(_PList), n(_PList.size())
 ~GCP(){}
 
 void playerCorrupt(int _t);
+void update(std::vector<Player> &_PList, int _t)
+{
+    PList = _PList;
+    t = _t;
+}
+
 void calcInitV();
 
 
 void generatePlayers();
 std::vector<Player>& transferPlist(){return PList;}
-void sendMsg();
+void sendMsg(int var = 0);
 void allCheck();
 void calcVG();
 void output();
@@ -66,34 +72,35 @@ void GCP::calcInitV()
     }
     return;
 }
-void GCP::sendMsg()
+void GCP::sendMsg(int var)
 {
+    //std::cout << "send\n";
     for(int i = 0; i < n; i ++)
     {
         PList[i].clearMsg();
     }
     for(int i = 0; i < n; i ++)
     {
-        PList[i].msg(PList);
+        PList[i].msg(PList, var);
     }
 }
 void GCP::allCheck()
 {
-    for(int i = 0; i < PList.size(); i ++)
+    for(int i = 0; i < n; i ++)
     {
         PList[i].check();
     }
 }
 void GCP::output() //output determination
 {
-    for(int i = 0; i < PList.size(); i ++)
+    for(int i = 0; i < n; i ++)
     {
         PList[i].outDet();
     }
 }
 void GCP::checkOutput(int c) //output determination
 {
-    for(int i = 0; i < PList.size(); i ++)
+    for(int i = 0; i < n; i ++)
     {
         PList[i].print(c);
     }
@@ -109,7 +116,6 @@ void GCP::calcVG()
     sendMsg();
     //std::cout << "msg2\n";
     output();
-
     checkOutput();
 }
 #endif

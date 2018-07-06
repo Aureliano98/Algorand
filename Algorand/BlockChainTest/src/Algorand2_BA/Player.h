@@ -118,8 +118,8 @@ std::pair <int, int> Player::count01()
     {
         if(i != ID)
         {
-            if(recieved[i].compare(ESIG0))cPair.first ++;
-            if(recieved[i].compare(ESIG1))cPair.second ++;
+            if(recieved[i].compare(ESIG0) == 0)cPair.first ++;
+            if(recieved[i].compare(ESIG1) == 0)cPair.second ++;
         }
     }
     return cPair;
@@ -127,16 +127,26 @@ std::pair <int, int> Player::count01()
 
 void Player::msg(std::vector<Player> &PList, int var)
 {
-    
-    if (!halt)
-    {
-        //message = sign(j, v)
-        message = v;
-    }
-    //std::cout << "preSend\n";
+    //std::cout << "send\n";
+    // if (!halt)
+    // {
+    //     switch (var)
+    //     {
+    //         case 1:
+    //             //doesn't change message
+    //             break;
+            
+    //         default:
+    //             //message = sign(j, v)
+    //             message = v;
+    //         break;
+    //     }
+
+    // }
+    message = v;
+    //std::cout << "b4 send\n";
     for(int i = 0; i < n; i ++)
     {
-        //std::cout << i << "\n";
         //skip = rand() % numPlayers; //acts as a pseudo way to implement time since we're only running on one OS
         if(i != ID /*&& !(skip < t)*/) //typical amount recieved is n-t, this gives a t/n chance to skip
         {
@@ -176,9 +186,11 @@ void Player::outDet()
     {
         if(i != ID)
         {
-            if(recieved[i].compare(ESIG2))count2++;
+            if(recieved[i].compare(ESIG2) == 0)count2++;
         }
     }
+    //std::cout << count.first << " " << count.second << " " << count2 << "\n";
+
     if(count.first > (2 * t) + 1)
     {
         VGPair.first = ESIG0;
@@ -214,6 +226,7 @@ void Player::outDet()
         VGPair.first = ESIG2;
         VGPair.second = 0;
     }
+    //std::cout << "end\n";
     b = 1;
     if (VGPair.second == 2)b = 0;
     //message = ESIG(i, b) + ESIG(i, v) + cred(i)
